@@ -59,6 +59,7 @@ export function FigureAsuka() {
   );
 }
 
+
 export function FigureShinji() {
   return (
     <svg viewBox="0 0 120 220" className="w-full h-full">

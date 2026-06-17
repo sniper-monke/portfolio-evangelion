@@ -5,12 +5,22 @@ import { MagiHexDisplay, HarmonicsGraph, ActiveTimeDisplay } from "../components
 
 function useTyped(text, speed = 32) {
   const [out, setOut] = useState("");
+  const [done, setDone] = useState(false);
   useEffect(() => {
-    setOut(""); let i = 0;
-    const id = setInterval(() => { i++; setOut(text.slice(0, i)); if (i >= text.length) clearInterval(id); }, speed);
+    setOut("");
+    setDone(false);
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setOut(text.slice(0, i));
+      if (i >= text.length) {
+        clearInterval(id);
+        setDone(true);
+      }
+    }, speed);
     return () => clearInterval(id);
   }, [text, speed]);
-  return out;
+  return { out, done };
 }
 
 const HERO_ASCII = `┌─[ NERV CENTRAL DOGMA :: ARCHIVE ACCESS GRANTED ]──────────────────────────┐
@@ -25,7 +35,7 @@ const HERO_ASCII = `┌─[ NERV CENTRAL DOGMA :: ARCHIVE ACCESS GRANTED ]──
 └────────────────────────────────────────────────────────────────────────────┘`;
 
 export default function HeroSection({ onSound }) {
-  const typed = useTyped(PILOT.tagline, 28);
+  const { out: typed, done: typedDone } = useTyped(PILOT.tagline, 28);
   const [mouse, setMouse] = useState({ x: 50, y: 50 });
   const [tick, setTick] = useState(0);
 
@@ -84,7 +94,7 @@ export default function HeroSection({ onSound }) {
 
             <div className="mt-2 text-[10px] text-nerv-orange tracking-widest">// MOTTO / RECOVERED TRANSCRIPT ─────────────────────────────────────────</div>
             <div className="border-l-2 border-nerv-orange/60 pl-3 text-foreground/95">
-              &gt; "{typed}<span className="caret"></span>"
+              &gt; "{typed}{!typedDone && <span className="caret"></span>}"
             </div>
 
             <div className="mt-2 text-[10px] text-nerv-orange tracking-widest">// CONSOLE ACTIONS ─────────────────────────────────────────────────────</div>
