@@ -36,7 +36,7 @@ export default function Navigation({ pro, onTogglePro, sound, onToggleSound, onL
           title={`NERV // ${logoClicks}/10`}
         >
           <img
-            src={NERV_MEDIA.nervLogo}
+            src={"/nerv.png"}
             alt="NERV"
             className={`h-8 w-auto ${pro ? "" : "drop-shadow-[0_0_6px_#FF6B00]"} transition-transform group-hover:rotate-[-3deg]`}
           />

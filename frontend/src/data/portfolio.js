@@ -10,40 +10,40 @@ export const PILOT = {
   bloodType: "O+",
   tagline: "In the space between logic and imagination, I build.",
   socials: {
-    github: "https://github.com/aaravkrishna",
-    linkedin: "https://linkedin.com/in/aaravkrishna",
-    email: "aarav@nerv.archive",
-    twitter: "https://twitter.com/aaravkrishna",
+    github: "https://github.com/sniper-monke",
+    linkedin: "https://linkedin.com/in/aarav-krishna",
+    email: "aarav.krishna78@gmail.com",
+    twitter: "https://twitter.com",
   },
   resumeUrl: "/resume.pdf",
 };
 
 export const PERSONNEL_FILE = {
   biography:
-    "Subject is a senior-year student operating at the intersection of software systems and economic theory. Field reports indicate an obsession with first-principles thinking, modular architecture, and the strange beauty of equilibrium states. Subject treats every problem as a system to be reverse-engineered.",
+    "Subject is a senior-year student working at the intersection of software systems and economic theory, guided not only by structure but by a strong creative and empathetic lens. Field reports suggest that they approach problems with curiosity and care—balancing first-principles thinking and modular design with an intuitive sense for human context, often uncovering insight in the quiet interactions between complex systems.",
   education: [
-    { institution: "DELHI PUBLIC SCHOOL — R.K. PURAM", role: "AISSCE // SCIENCE + ECONOMICS", years: "2021–2024", note: "98.4% aggregate. Top 0.3% national rank." },
-    { institution: "PROJECTED // UNIVERSITY OF CHICAGO", role: "BS ECONOMICS & COMPUTER SCIENCE (TARGET)", years: "2026–2030", note: "Application in transit." },
-    { institution: "MIT OPENCOURSEWARE // 14.01 + 6.006", role: "INDEPENDENT STUDY", years: "ONGOING", note: "Microeconomics + Algorithms." },
+    { institution: "BOMBAY SCOTTISH SCHOOL- POWAI", role: "ICSE-SCIENCE", years: "2013-2025", note: "97.0% aggregate 10th boards. Top 1% national rank." },
+    { institution: "BOMBAY SCOTTISH SCHOOL- MAHIM", role: "ISC- ECONOMICS+COMPUTER SCIENCE", years: "2025–2027", note: "Preparing for boards." },
+    { institution: "PROJECTED // NUS SINGAPORE", role: "ECONOMICS+COMPUTER SCIENCE DOUBLE DEGREE", years: "ONGOING", note: "Application in transit." },
   ],
-  interests: ["MECHANISM DESIGN", "OPEN-SOURCE SYSTEMS", "BEHAVIORAL ECONOMICS", "BAUHAUS TYPOGRAPHY", "URBAN CARTOGRAPHY", "EVANGELION", "JAZZ FUSION"],
-  hobbies: ["LONG-FORM ESSAY WRITING", "TYPOGRAPHY POSTERS", "CHESS (1820 ELO)", "FILM PHOTOGRAPHY", "TRAIL RUNNING"],
+  interests: ["MECHANISM DESIGN", "OPEN-SOURCE SYSTEMS", "BEHAVIORAL ECONOMICS", "ECONOMIC THEORY", "MACROECONOMICS", "WEB DEVELOPMENT", "JAVA DEVLOPMENT"],
+  hobbies: ["ARTISTRY", "MANGA COLLECTING", "BASKETBALL", "COOKING", "READING"],
   aspirations:
     "To build systems — code and policy alike — that compound human agency. Long-term: research economist with a tool-builder's hands; short-term: ship software that other students actually use.",
-  personality: ["CURIOUS", "DELIBERATE", "PATIENT", "STUBBORN ABOUT QUALITY", "OCCASIONALLY DRAMATIC"],
+  personality: ["CURIOUS", "DELIBERATE", "PATIENT", "CREATIVE", "EMPATHETIC","INSIGHTFUL"],
   favoriteMedia: [
     "NEON GENESIS EVANGELION",
-    "DUNE — F. HERBERT",
-    "THE BIG SHORT — M. LEWIS",
-    "BLADE RUNNER 2049",
+    "JOJO'S BIZARRE ADVENTURE",
+    "OMNISCIENT READER'S VIEWPOINT",
+    "ARCANE- LEAGUE OF LEGENDS",
     "GHOST IN THE SHELL (1995)",
-    "THE WORLDLY PHILOSOPHERS — R. HEILBRONER",
+    "TENET- CHRISTOPHER NOLAN",
   ],
   funFacts: [
-    "Can recite the Yebisu beer jingle from memory.",
-    "Once debugged a deployment from a moving train.",
-    "Owns 14 mechanical keyboards. Refuses to admit it.",
-    "Eats curry on Thursdays, no exceptions.",
+    "Can cook whatever you want with near perfection",
+    "Once debugged a deployment while having a 104 fever and nearly collapsing in school",
+    "Owns wayyy too much manga that I've already read online",
+    "LOVES fried chicken. More than anything in this world.",
     "Has watched End of Evangelion 9 times.",
   ],
 };
@@ -119,12 +119,12 @@ export const PROJECTS = [
 
 export const SKILLS = {
   LANGUAGES: [
-    { name: "PYTHON", value: 92 },
-    { name: "TYPESCRIPT", value: 88 },
-    { name: "RUST", value: 71 },
-    { name: "C++", value: 65 },
-    { name: "GO", value: 60 },
-    { name: "LATEX", value: 80 },
+    { name: "JAVA", value: 92 },
+    { name: "JAVASCRIPT", value: 88 },
+    { name: "TYPESCRIPT", value: 71 },
+    { name: "HTML/CSS", value: 65 },
+    { name: "PYTHON", value: 60 },
+    { name: "BOOLEAN LOGIC", value: 80 },
   ],
   FRAMEWORKS: [
     { name: "REACT / NEXT", value: 90 },
@@ -140,14 +140,14 @@ export const SKILLS = {
     { name: "FIGMA", value: 70 },
   ],
   CREATIVE: [
-    { name: "TYPOGRAPHY", value: 82 },
-    { name: "FILM PHOTOGRAPHY", value: 70 },
-    { name: "POSTER DESIGN", value: 75 },
+    { name: "ARTISTRY", value: 82 },
+    { name: "RETRO PHOTOGRAPHY", value: 70 },
+    { name: "COOKING ", value: 75 },
   ],
   RESEARCH: [
-    { name: "MICROECONOMICS", value: 88 },
+    { name: "MACROECONOMICS", value: 88 },
     { name: "GAME THEORY", value: 80 },
-    { name: "ECONOMETRICS", value: 65 },
+    { name: "ECONOMETRICS", value: 90 },
     { name: "LIT REVIEW", value: 78 },
   ],
 };
@@ -216,6 +216,16 @@ export const NERV_MEDIA = {
   fui1: "https://i.imgur.com/TkOO9fF.jpg",
   fui2: "https://i.imgur.com/6mDPV0L.jpg",
   fui3: "https://i.imgur.com/ebxjA8x.jpg",
+  // Character archive feeds (Giphy — animated loops for voice-log panels)
+  characterRei: "https://media.giphy.com/media/UNPQQ6HvLb4w66KkI2/giphy.gif",
+  characterAsuka: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3ozbjNramF6N2F5d282a3h4cHhjb25uZTFhZW95enVsYmprMW9tdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cvEEwGaq86ZpjHnk49/giphy.gif",
+  characterShinji: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm5kdnlpczc1Y252cW1sbjdueWd2ZWNpaWc2OWp3bnUwYjZ5b2ZsZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bSgKBZKCxh8Iqlwxne/giphy.gif",
+};
+
+export const CHARACTER_MEDIA = {
+  rei:    { src: NERV_MEDIA.characterRei,    alt: "Rei Ayanami — Neon Genesis Evangelion" },
+  asuka:  { src: NERV_MEDIA.characterAsuka,  alt: "Asuka Langley Shikinami — Neon Genesis Evangelion" },
+  shinji: { src: NERV_MEDIA.characterShinji, alt: "Shinji Ikari — Neon Genesis Evangelion" },
 };
 
 // Episode title cards interspersed between sections
