@@ -23,8 +23,9 @@ import {
   CongratulationsOverlay,
 } from "./components/Overlays";
 import { InstrumentalityPage, DogPage } from "./components/HiddenPages";
-import { PILOT, EPISODES } from "./data/portfolio";
+import { PILOT, EPISODES, NERV_MEDIA } from "./data/portfolio";
 import TitleCard from "./components/TitleCard";
+import SilhouetteQuote from "./components/SilhouetteQuote";
 
 const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
 
@@ -166,16 +167,103 @@ export default function App() {
         <HeroSection onSound={sfx.click} />
         <TitleCard {...EPISODES.personnel} />
         <PersonnelSection />
+
+        {/* Silhouette quote interlude — REI archetype */}
+        <section className="px-3 md:px-4 py-6 grid grid-cols-12 gap-2" data-testid="quote-rei">
+          <div className="col-span-12 lg:col-span-3">
+            <div className="border border-nerv-orange/50 bg-background/60 h-full overflow-hidden relative">
+              <div className="flex items-center justify-between border-b border-nerv-orange/40 px-2 py-1 text-[10px] tracking-widest font-mono text-nerv-orange">
+                <span>REF-UI/01</span><span className="opacity-60">EVA HUD</span>
+              </div>
+              <img src={NERV_MEDIA.fui1} alt="EVA hud reference" loading="lazy" className="w-full h-auto object-cover" />
+              <div className="absolute bottom-1 left-1 font-jp text-nerv-orange/60 text-xs tracking-widest">資料 ・ 01</div>
+            </div>
+          </div>
+          <div className="col-span-12 lg:col-span-6">
+            <SilhouetteQuote
+              fileId="VL-001 // SUBJ-00"
+              codename="SUBJECT-00"
+              designation="EVA-UNIT-00 // BLUE"
+              variant="orange"
+              figure="rei"
+              quoteJp="あなたは、誰？"
+              quoteEn="WHO ARE YOU?"
+              footer="VOICE LOG RECOVERED FROM TEST CHAMBER // FRAGMENT 03 OF 12 // AUDIO DEGRADED"
+            />
+          </div>
+          <div className="col-span-12 lg:col-span-3">
+            <div className="border border-nerv-green/50 bg-background/60 h-full overflow-hidden relative">
+              <div className="flex items-center justify-between border-b border-nerv-green/40 px-2 py-1 text-[10px] tracking-widest font-mono text-nerv-green">
+                <span>REF-UI/02</span><span className="opacity-60">EVA HUD</span>
+              </div>
+              <img src={NERV_MEDIA.fui2} alt="EVA hud reference 2" loading="lazy" className="w-full h-auto object-cover" />
+              <div className="absolute bottom-1 right-1 font-jp text-nerv-green/60 text-xs tracking-widest">資料 ・ 02</div>
+            </div>
+          </div>
+        </section>
+
         <TitleCard {...EPISODES.operations} />
         <OperationsSection />
         <TitleCard {...EPISODES.skills} />
         <SkillsSection />
+
+        {/* Silhouette quote interlude — ASUKA archetype */}
+        <section className="px-3 md:px-4 py-6 grid grid-cols-12 gap-2" data-testid="quote-asuka">
+          <div className="col-span-12 lg:col-span-7">
+            <SilhouetteQuote
+              fileId="VL-002 // SUBJ-02"
+              codename="SUBJECT-02"
+              designation="EVA-UNIT-02 // RED"
+              variant="red"
+              figure="asuka"
+              quoteJp="あなたは誰？"
+              quoteEn="WHO ARE YOU?"
+              footer="VOICE LOG // FIELD CHATTER // OPERATION ROUGE // SECTOR 7"
+            />
+          </div>
+          <div className="col-span-12 lg:col-span-5">
+            <div className="border border-nerv-red/50 bg-background/60 h-full overflow-hidden relative">
+              <div className="flex items-center justify-between border-b border-nerv-red/40 px-2 py-1 text-[10px] tracking-widest font-mono text-nerv-red">
+                <span>REF-UI/03 :: HARMONICS</span><span className="opacity-60">ARCHIVED 2015.06</span>
+              </div>
+              <img src={NERV_MEDIA.harmonicsGraph} alt="harmonics graph archive" loading="lazy" className="w-full h-auto object-cover" />
+              <div className="absolute bottom-1 left-1 font-jp text-nerv-red/60 text-xs tracking-widest">同期 ・ テスト</div>
+            </div>
+          </div>
+        </section>
+
         <TitleCard {...EPISODES.economics} />
         <EconomicsSection />
         <TitleCard {...EPISODES.achievements} />
         <AchievementsSection unlocked={unlocked} />
         <TitleCard {...EPISODES.gallery} />
         <GallerySection />
+
+        {/* Silhouette quote interlude — SHINJI archetype */}
+        <section className="px-3 md:px-4 py-6 grid grid-cols-12 gap-2" data-testid="quote-shinji">
+          <div className="col-span-12 lg:col-span-5">
+            <div className="border border-nerv-green/50 bg-background/60 h-full overflow-hidden relative">
+              <div className="flex items-center justify-between border-b border-nerv-green/40 px-2 py-1 text-[10px] tracking-widest font-mono text-nerv-green">
+                <span>REF-UI/04 :: MAGI</span><span className="opacity-60">DELIBERATION</span>
+              </div>
+              <img src={NERV_MEDIA.magiDeliberation} alt="MAGI deliberation reference" loading="lazy" className="w-full h-auto object-cover" />
+              <div className="absolute bottom-1 left-1 font-jp text-nerv-green/60 text-xs tracking-widest">承認 ・ 否定</div>
+            </div>
+          </div>
+          <div className="col-span-12 lg:col-span-7">
+            <SilhouetteQuote
+              fileId="VL-003 // SUBJ-01"
+              codename="SUBJECT-01"
+              designation="EVA-UNIT-01 // VIOLET"
+              variant="green"
+              figure="shinji"
+              quoteJp="僕は、ここにいる。"
+              quoteEn="I AM HERE."
+              footer="INTERNAL MONOLOGUE // ENTRY PLUG // FILTERED FROM PSYCHOGRAPHIC TELEMETRY"
+            />
+          </div>
+        </section>
+
         <TitleCard {...EPISODES.status} />
         <StatusSection />
         <TitleCard {...EPISODES.contact} />

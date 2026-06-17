@@ -5,7 +5,7 @@ import TerminalPanel, { SectionHeader, HazardBar } from "../components/TerminalP
 export function EconomicsSection() {
   return (
     <section id="economics" className="px-3 md:px-4 py-8" data-testid="economics-section">
-      <SectionHeader file="FILE-04/DIV-E" title="ECONOMIC ANALYSIS DIVISION" sub="ESSAYS · RESEARCH · COMPETITIONS // CLEARANCE B-2" code="ENTRY" status="OPEN" />
+      <SectionHeader file="FILE-04/DIV-E" title="ECONOMIC ANALYSIS DIVISION" titleJp="経済分析部" sub="ESSAYS · RESEARCH · COMPETITIONS // CLEARANCE B-2" code="ENTRY" status="OPEN" />
 
       <div className="grid grid-cols-12 gap-1.5">
         <div className="col-span-12 lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-1.5">
@@ -56,7 +56,7 @@ export function EconomicsSection() {
 export function AchievementsSection({ unlocked }) {
   return (
     <section id="achievements" className="px-3 md:px-4 py-8" data-testid="achievements-section">
-      <SectionHeader file="FILE-05/RECORDS" title="NERV RECORDS" sub={`PUBLIC: ${ACHIEVEMENTS.length} // HIDDEN: ${unlocked.length}/8`} code="ARC" status="VERIFIED" />
+      <SectionHeader file="FILE-05/RECORDS" title="NERV RECORDS" titleJp="勲章記録" sub={`PUBLIC: ${ACHIEVEMENTS.length} // HIDDEN: ${unlocked.length}/8`} code="ARC" status="VERIFIED" />
 
       <div className="grid grid-cols-12 gap-1.5">
         <div className="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-1.5">
@@ -108,7 +108,7 @@ export function AchievementsSection({ unlocked }) {
 export function StatusSection() {
   return (
     <section id="status" className="px-3 md:px-4 py-8" data-testid="status-section">
-      <SectionHeader file="FILE-07/STATUS" title="CURRENT OPS" sub="REAL-TIME PILOT TELEMETRY // TICK 1Hz" code="LIVE" status="STREAMING" statusColor="text-nerv-red" />
+      <SectionHeader file="FILE-07/STATUS" title="CURRENT OPS" titleJp="現状報告" sub="REAL-TIME PILOT TELEMETRY // TICK 1Hz" code="LIVE" status="STREAMING" statusColor="text-nerv-red" />
       <div className="grid grid-cols-12 gap-1.5">
         {CURRENT_STATUS.map((s, i) => (
           <TerminalPanel

@@ -6,7 +6,7 @@ export function GallerySection() {
   const [active, setActive] = useState(null);
   return (
     <section id="gallery" className="px-3 md:px-4 py-8" data-testid="gallery-section">
-      <SectionHeader file="FILE-06/ART" title="ART ARCHIVE" sub={`${ART_GALLERY.length} ASSETS // INDEXED // SECTOR 9`} code="VIS" status="OPEN" />
+      <SectionHeader file="FILE-06/ART" title="ART ARCHIVE" titleJp="美術資料" sub={`${ART_GALLERY.length} ASSETS // INDEXED // SECTOR 9`} code="VIS" status="OPEN" />
       <div className="grid grid-cols-12 gap-1.5">
         <div className="col-span-12 lg:col-span-9 grid grid-cols-2 md:grid-cols-3 gap-1.5">
           {ART_GALLERY.map((a, i) => (
@@ -90,7 +90,7 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="px-3 md:px-4 py-8" data-testid="contact-section">
-      <SectionHeader file="FILE-08/COMMS" title="CONTACT TERMINAL" sub="ENCRYPTED VIA WEB3FORMS // 256-BIT" code="TX" status="OPEN" />
+      <SectionHeader file="FILE-08/COMMS" title="CONTACT TERMINAL" titleJp="通信端末" sub="ENCRYPTED VIA WEB3FORMS // 256-BIT" code="TX" status="OPEN" />
 
       <div className="grid grid-cols-12 gap-1.5">
         <TerminalPanel file="MAGI/COMMS" title="LIVE TRANSMISSION LOG" variant="green" status="OPEN CHANNEL" statusColor="text-nerv-green" className="col-span-12 lg:col-span-6" meta={[{ k: "ENC", v: "AES-256" }, { k: "PIPE", v: "0x42" }]}>

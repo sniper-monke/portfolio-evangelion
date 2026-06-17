@@ -37,7 +37,7 @@ export default function OperationsSection() {
   const [active, setActive] = useState(null);
   return (
     <section id="operations" className="px-3 md:px-4 py-8" data-testid="operations-section">
-      <SectionHeader file="FILE-02/OPERATIONS" title="OPERATIONS LOG" sub={`${PROJECTS.length} OPERATIONS REGISTERED // SORT: CHRONO`} code="LOG" status="OPERATIONAL" />
+      <SectionHeader file="FILE-02/OPERATIONS" title="OPERATIONS LOG" titleJp="作戦記録" sub={`${PROJECTS.length} OPERATIONS REGISTERED // SORT: CHRONO`} code="LOG" status="OPERATIONAL" />
 
       <div className="grid grid-cols-12 gap-1.5">
         <div className="col-span-12 lg:col-span-9 space-y-1">

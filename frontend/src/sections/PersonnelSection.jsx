@@ -6,7 +6,7 @@ import { ToxicityBars } from "../components/MagiDisplays";
 export default function PersonnelSection() {
   return (
     <section id="personnel" className="px-3 md:px-4 py-8" data-testid="personnel-section">
-      <SectionHeader file="FILE-01/PERSONNEL" title="PERSONNEL FILE" sub="DOSSIER OPENED VIA OVERRIDE // EYES ONLY" code="OPEN" status="CLASSIFIED" />
+      <SectionHeader file="FILE-01/PERSONNEL" title="PERSONNEL FILE" titleJp="人事記録" sub="DOSSIER OPENED VIA OVERRIDE // EYES ONLY" code="OPEN" status="CLASSIFIED" />
 
       <div className="grid grid-cols-12 gap-1.5">
         {/* ID card */}

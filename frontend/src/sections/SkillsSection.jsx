@@ -22,7 +22,7 @@ function SegBar({ value }) {
 export default function SkillsSection() {
   return (
     <section id="skills" className="px-3 md:px-4 py-8" data-testid="skills-section">
-      <SectionHeader file="FILE-03/SYNC" title="SYNCHRONIZATION RATIOS" sub="EVANGELION HARMONICS // CHANNEL A // TEST 132" code="REC" status="GREEN" />
+      <SectionHeader file="FILE-03/SYNC" title="SYNCHRONIZATION RATIOS" titleJp="同期率測定" sub="EVANGELION HARMONICS // CHANNEL A // TEST 132" code="REC" status="GREEN" />
 
       <div className="grid grid-cols-12 gap-1.5">
         <div className="col-span-12 lg:col-span-4 space-y-1.5">

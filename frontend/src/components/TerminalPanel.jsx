@@ -52,11 +52,11 @@ export default function TerminalPanel({
   );
 }
 
-export function SectionHeader({ file, title, sub, code = "REC", status = "ACTIVE" }) {
+export function SectionHeader({ file, title, sub, code = "REC", status = "ACTIVE", titleJp = "" }) {
   const now = new Date();
   const ts = now.toISOString().replace("T", " ").slice(0, 19);
   return (
-    <div className="border border-nerv-orange/60 bg-background/70 mb-2">
+    <div className="border border-nerv-orange/60 bg-background/70 mb-3">
       <div className="flex items-center gap-3 border-b border-nerv-orange/40 px-2 py-1 text-[10px] tracking-widest font-mono text-nerv-orange">
         <span className="hazard-stripe w-3 h-3 inline-block" />
         <span>NERV/ARCHIVE/{file}</span>
@@ -66,12 +66,14 @@ export function SectionHeader({ file, title, sub, code = "REC", status = "ACTIVE
         <span className="text-nerv-green">● {status}</span>
         <span className="ml-auto opacity-60">[ACCESS: A-1]</span>
       </div>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-1 px-2 pt-2 pb-2">
-        <div>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 px-3 pt-3 pb-3 relative">
+        <div className="absolute right-3 top-2 font-jp text-nerv-orange/10 text-5xl md:text-7xl leading-none pointer-events-none select-none">{titleJp}</div>
+        <div className="relative">
+          {titleJp && <div className="font-jp text-nerv-orange/80 tracking-[0.3em] text-sm md:text-base mb-1">{titleJp}</div>}
           <div className="text-[10px] tracking-[0.35em] text-nerv-orange/80 mono-tag">{`>> ${file}`}</div>
           <div className="display-stretch text-3xl md:text-5xl text-nerv-orange text-glow-orange">{title}</div>
         </div>
-        <div className="text-[10px] tracking-widest font-mono text-foreground/60">{sub}</div>
+        <div className="relative text-[10px] tracking-widest font-mono text-foreground/60">{sub}</div>
       </div>
     </div>
   );
