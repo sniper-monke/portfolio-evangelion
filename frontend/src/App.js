@@ -1,56 +1,213 @@
-import { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-import { HOME } from "@/constants/testIds";
+import Cursor from "./components/Cursor";
+import Navigation from "./components/Navigation";
+import HudOverlay from "./components/HudOverlay";
+import BootSequence from "./components/BootSequence";
+import SecretTerminal from "./components/SecretTerminal";
+import HeroSection from "./sections/HeroSection";
+import PersonnelSection from "./sections/PersonnelSection";
+import OperationsSection from "./sections/OperationsSection";
+import SkillsSection from "./sections/SkillsSection";
+import { EconomicsSection, AchievementsSection, StatusSection } from "./sections/MidSections";
+import { GallerySection, ContactSection } from "./sections/EndSections";
+import usePersistedState from "./hooks/usePersistedState";
+import useSound from "./hooks/useSound";
+import {
+  ThirdImpactOverlay,
+  AngelDetected,
+  FakeError,
+  EndingScreen,
+  SeeleOverlay,
+  MagiLoginOverlay,
+  CongratulationsOverlay,
+} from "./components/Overlays";
+import { InstrumentalityPage, DogPage } from "./components/HiddenPages";
+import { PILOT } from "./data/portfolio";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
+export default function App() {
+  const [bootDone, setBootDone] = usePersistedState("nerv_boot_done_v1", false);
+  const [showBoot, setShowBoot] = useState(!bootDone);
+  const [pro, setPro] = usePersistedState("nerv_pro_mode", false);
+  const [sound, setSound] = usePersistedState("nerv_sound", false);
+  const [unlocked, setUnlocked] = usePersistedState("nerv_unlocked", []);
+  const [terminalOpen, setTerminalOpen] = useState(false);
+  const [logoClicks, setLogoClicks] = useState(0);
+  const [overlay, setOverlay] = useState(null); // 'third', 'seele', 'magi', 'angel', 'fake', 'ending', 'congrats'
+  const [hiddenPage, setHiddenPage] = useState(null); // 'instrumentality', 'dog'
+  const [konamiBuf, setKonamiBuf] = useState([]);
+
+  const sfx = useSound(sound);
+
+  // Apply mode class to html
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("pro-mode", pro);
+    root.classList.toggle("scanlines", !pro);
+  }, [pro]);
+
+  const unlock = useCallback((key) => {
+    setUnlocked((arr) => (arr.includes(key) ? arr : [...arr, key]));
+  }, [setUnlocked]);
+
+  // Keyboard listeners (terminal toggle, Konami, exit)
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "`" || e.key === "~") {
+        e.preventDefault();
+        setTerminalOpen((v) => !v);
+        sfx.beep();
+        return;
+      }
+      if (e.key === "Escape") {
+        setOverlay(null);
+        setHiddenPage(null);
+        if (terminalOpen) setTerminalOpen(false);
+      }
+      setKonamiBuf((buf) => {
+        const next = [...buf, e.key].slice(-KONAMI.length);
+        if (next.length === KONAMI.length && next.every((k, i) => k === KONAMI[i])) {
+          setOverlay("seele");
+          unlock("KONAMI_UNLOCK");
+          sfx.warn();
+          return [];
+        }
+        return next;
+      });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [sfx, terminalOpen, unlock]);
+
+  // Random angel detections (every ~60s)
+  useEffect(() => {
+    if (pro) return;
+    const i = setInterval(() => {
+      if (Math.random() < 0.5) {
+        setOverlay((o) => o ?? "angel");
+        unlock("ANGEL_SIGHTED");
+        sfx.warn();
+      } else {
+        setOverlay((o) => o ?? "fake");
+      }
+    }, 65000);
+    return () => clearInterval(i);
+  }, [pro, sfx, unlock]);
+
+  const handleLogo = useCallback(() => {
+    sfx.click();
+    setLogoClicks((c) => {
+      const n = c + 1;
+      if (n >= 10) {
+        setOverlay("third");
+        unlock("THIRD_IMPACT");
+        sfx.warn();
+        return 0;
+      }
+      return n;
+    });
+  }, [sfx, unlock]);
+
+  const handleAction = (action) => {
+    if (action === "resume") {
+      const a = document.createElement("a");
+      a.href = PILOT.resumeUrl; a.download = "personnel_report.pdf"; a.click();
+    } else if (action === "magi") setOverlay("magi");
+    else if (action === "thirdimpact") setOverlay("third");
+    else if (action === "seele") setOverlay("seele");
+    else if (action === "instrumentality") setHiddenPage("instrumentality");
+    else if (action === "congrats") setOverlay("congrats");
   };
 
+  // Hidden Easter Eggs: keyboard "c" three times for congrats; "r" "e" "i" for rei msg
   useEffect(() => {
-    helloWorldApi();
-  }, []);
+    const buf = { current: "" };
+    const onKey = (e) => {
+      if (!e.key || e.key.length !== 1) return;
+      buf.current = (buf.current + e.key.toLowerCase()).slice(-12);
+      if (buf.current.endsWith("congratulations")) { setOverlay("congrats"); unlock("SECRET_EVA"); }
+      if (buf.current.endsWith("rei")) { setOverlay("fake"); }
+      if (buf.current.endsWith("asuka")) { setOverlay("angel"); }
+      if (buf.current.endsWith("shinji")) { unlock("SECRET_EVA"); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [unlock]);
+
+  if (showBoot) {
+    return (
+      <BootSequence
+        onComplete={() => {
+          setShowBoot(false);
+          setBootDone(true);
+        }}
+        onSound={() => sound && sfx.beep()}
+      />
+    );
+  }
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          data-testid={HOME.emergentLink}
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+    <div className="App relative min-h-screen text-foreground">
+      <Cursor />
+      <Navigation
+        pro={pro}
+        onTogglePro={() => { setPro(!pro); sfx.click(); }}
+        sound={sound}
+        onToggleSound={() => { setSound(!sound); sfx.beep(); }}
+        onLogoClick={handleLogo}
+        logoClicks={logoClicks}
+      />
+      <HudOverlay pro={pro} />
 
-function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <main className="pt-16 pb-16">
+        <HeroSection onSound={sfx.click} />
+        <PersonnelSection />
+        <OperationsSection />
+        <SkillsSection />
+        <EconomicsSection />
+        <AchievementsSection unlocked={unlocked} />
+        <GallerySection />
+        <StatusSection />
+        <ContactSection />
+
+        <section className="px-3 md:px-6 py-12 max-w-7xl mx-auto text-center" data-testid="session-end">
+          <div className="border-2 border-nerv-orange/60 py-10">
+            <div className="text-[10px] tracking-[0.5em] text-nerv-orange text-glow-orange">END OF FILE</div>
+            <div className="display-stretch text-3xl md:text-5xl text-foreground mt-2">Thank you for visiting the NERV archives.</div>
+            <button
+              onClick={() => setOverlay("ending")}
+              data-testid="terminate-session"
+              data-cursor="hover"
+              className="mt-6 border-2 border-nerv-red text-nerv-red px-4 py-1.5 text-xs tracking-widest hover:bg-nerv-red hover:text-background"
+            >
+              ▣ TERMINATE SESSION
+            </button>
+            <div className="mt-6 font-mono text-[10px] tracking-widest text-foreground/50">
+              ＮＥＲＶ © {new Date().getFullYear()} — Built by Pilot-01. Press ~ for hidden terminal. Try the Konami code.
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <SecretTerminal open={terminalOpen} onClose={() => setTerminalOpen(false)} onUnlock={unlock} onAction={handleAction} />
+
+      {overlay === "third" && <ThirdImpactOverlay onClose={() => setOverlay(null)} />}
+      {overlay === "angel" && <AngelDetected onClose={() => setOverlay(null)} />}
+      {overlay === "fake" && <FakeError onClose={() => setOverlay(null)} />}
+      {overlay === "ending" && <EndingScreen onClose={() => setOverlay(null)} />}
+      {overlay === "seele" && <SeeleOverlay onClose={() => setOverlay(null)} />}
+      {overlay === "magi" && <MagiLoginOverlay onClose={() => setOverlay(null)} />}
+      {overlay === "congrats" && <CongratulationsOverlay onClose={() => setOverlay(null)} />}
+
+      {hiddenPage === "instrumentality" && <InstrumentalityPage onClose={() => setHiddenPage(null)} />}
+      {hiddenPage === "dog" && <DogPage onClose={() => setHiddenPage(null)} />}
+
+      {/* Hidden chair reference */}
+      <div className="fixed bottom-14 right-2 text-[9px] text-foreground/15 font-mono pointer-events-none select-none hidden md:block">
+        // [shinji's chair: still here]
+      </div>
     </div>
   );
 }
-
-export default App;

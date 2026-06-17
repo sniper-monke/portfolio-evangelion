@@ -1,0 +1,148 @@
+import React, { useEffect, useState } from "react";
+
+export function ThirdImpactOverlay({ onClose }) {
+  const [phase, setPhase] = useState(0);
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase(1), 800);
+    const t2 = setTimeout(() => setPhase(2), 2800);
+    const t3 = setTimeout(() => onClose(), 6000);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[300] grid place-items-center bg-nerv-red text-background animate-flicker overflow-hidden" data-testid="third-impact">
+      <div className="text-center font-stamp px-4">
+        <div className="text-xs md:text-sm tracking-[0.6em] mb-3">EMERGENCY OVERRIDE</div>
+        <div className="display-stretch text-6xl md:text-9xl">THIRD IMPACT</div>
+        <div className="text-xs md:text-sm tracking-[0.6em] mt-3">{phase >= 1 ? "INITIATED" : "PENDING"}</div>
+        {phase >= 2 && (
+          <div className="font-mono text-xs md:text-sm mt-6 max-w-md mx-auto">
+            「全ては始まりの場所へ」<br />
+            ALL SOULS TO THE PLACE OF BEGINNING
+          </div>
+        )}
+      </div>
+      <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+    </div>
+  );
+}
+
+export function AngelDetected({ onClose }) {
+  useEffect(() => { const t = setTimeout(onClose, 3200); return () => clearTimeout(t); }, [onClose]);
+  return (
+    <div className="fixed top-20 right-3 z-[180] border-2 border-nerv-red bg-background/95 p-3 max-w-xs animate-flicker shadow-[0_0_18px_#FF3030]" data-testid="angel-popup">
+      <div className="text-[10px] tracking-widest text-nerv-red text-glow-red font-stamp">⚠ WARNING</div>
+      <div className="font-display text-xl text-foreground">ANGEL DETECTED</div>
+      <div className="text-[11px] text-foreground/80 mt-1">PATTERN BLUE // SECTOR A-17 // ALL PILOTS TO STATIONS</div>
+      <div className="h-1 bg-nerv-red/30 mt-2"><div className="h-full bg-nerv-red animate-pulse w-full" /></div>
+    </div>
+  );
+}
+
+export function FakeError({ onClose }) {
+  useEffect(() => { const t = setTimeout(onClose, 4200); return () => clearTimeout(t); }, [onClose]);
+  return (
+    <div className="fixed bottom-20 left-3 z-[180] border-2 border-nerv-yellow bg-background/95 p-3 max-w-sm font-mono text-xs" data-testid="fake-error">
+      <div className="text-nerv-yellow tracking-widest">[SYS-WARN]</div>
+      <div className="text-foreground">MAGI/MELCHIOR returned anomaly: 0x7F-INSTRUMENTAL_DRIFT</div>
+      <div className="text-foreground/60 mt-1">Auto-recovery in progress... (this is fine.)</div>
+    </div>
+  );
+}
+
+export function EndingScreen({ onClose }) {
+  const [stage, setStage] = useState(0);
+  useEffect(() => {
+    const t1 = setTimeout(() => setStage(1), 1600);
+    const t2 = setTimeout(() => setStage(2), 3400);
+    const t3 = setTimeout(() => setStage(3), 5400);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+  return (
+    <div className="fixed inset-0 z-[400] bg-black grid place-items-center text-center text-nerv-text" data-testid="ending-screen">
+      <div className="px-6">
+        {stage >= 0 && (
+          <div className="font-display text-2xl md:text-4xl tracking-tight">Thank you for visiting the NERV archives.</div>
+        )}
+        {stage >= 1 && (
+          <div className="mt-8 display-stretch text-4xl md:text-6xl text-nerv-orange text-glow-orange">SESSION TERMINATED.</div>
+        )}
+        {stage >= 2 && (
+          <div className="mt-3 font-stamp tracking-[0.6em] text-nerv-red text-glow-red">SEE YOU AGAIN.</div>
+        )}
+        {stage >= 3 && (
+          <button onClick={onClose} className="mt-10 border-2 border-nerv-orange text-nerv-orange px-4 py-1.5 text-xs tracking-widest hover:bg-nerv-orange hover:text-background" data-testid="ending-close">
+            REOPEN ARCHIVE
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function SeeleOverlay({ onClose }) {
+  return (
+    <div className="fixed inset-0 z-[300] bg-black grid place-items-center" data-testid="seele-overlay">
+      <button onClick={onClose} className="absolute top-3 right-3 text-nerv-orange border border-nerv-orange/60 px-2 py-1 text-xs tracking-widest">CLOSE</button>
+      <div className="text-center">
+        <div className="text-[10px] tracking-[0.8em] text-foreground/60 mb-6">SOUND ONLY</div>
+        <div className="flex items-end justify-center gap-2 mb-8">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="w-8 md:w-12 bg-nerv-red text-background font-stamp text-center grid place-items-center border-2 border-nerv-red" style={{ height: 100 + Math.random() * 60 }}>
+              {String(i + 1).padStart(2, "0")}
+            </div>
+          ))}
+        </div>
+        <div className="display-stretch text-4xl md:text-6xl text-nerv-red text-glow-red">SEELE OVERRIDE</div>
+        <div className="font-mono text-xs tracking-widest text-foreground/60 mt-3">COMMITTEE OF 12 // CONVENED</div>
+      </div>
+    </div>
+  );
+}
+
+export function MagiLoginOverlay({ onClose }) {
+  const [stage, setStage] = useState(0);
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
+  return (
+    <div className="fixed inset-0 z-[300] bg-black grid place-items-center" data-testid="magi-overlay">
+      <button onClick={onClose} className="absolute top-3 right-3 text-nerv-green border border-nerv-green/60 px-2 py-1 text-xs tracking-widest">CLOSE</button>
+      <div className="border-2 border-nerv-green text-nerv-green text-glow-green p-6 font-mono w-[92%] max-w-md">
+        <div className="text-xs tracking-[0.4em] border-b border-nerv-green/40 pb-2 mb-4">MAGI :: ROOT LOGIN</div>
+        {stage === 0 ? (
+          <form onSubmit={(e) => { e.preventDefault(); setStage(1); setTimeout(onClose, 2400); }} className="space-y-3 text-sm">
+            <div>
+              <div className="text-[10px] tracking-widest mb-1">OPERATOR</div>
+              <input value={user} onChange={(e) => setUser(e.target.value)} className="w-full bg-transparent border border-nerv-green/40 p-1 outline-none focus:border-nerv-green" placeholder="dr.ikari" />
+            </div>
+            <div>
+              <div className="text-[10px] tracking-widest mb-1">KEY</div>
+              <input value={pwd} onChange={(e) => setPwd(e.target.value)} type="password" className="w-full bg-transparent border border-nerv-green/40 p-1 outline-none focus:border-nerv-green" placeholder="●●●●●●●●" />
+            </div>
+            <button className="w-full border border-nerv-green hover:bg-nerv-green hover:text-background text-[11px] tracking-widest py-1">AUTHENTICATE</button>
+          </form>
+        ) : (
+          <div className="text-xs space-y-1">
+            <div>VERIFYING IDENTITY...</div>
+            <div>CHECKING CASPAR / MELCHIOR / BALTHASAR...</div>
+            <div className="text-nerv-orange">ACCESS DENIED.</div>
+            <div className="text-foreground/60">- WHAT WERE YOU EXPECTING, PILOT?</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function CongratulationsOverlay({ onClose }) {
+  useEffect(() => { const t = setTimeout(onClose, 5200); return () => clearTimeout(t); }, [onClose]);
+  return (
+    <div className="fixed inset-0 z-[300] bg-black grid place-items-center" data-testid="congrats-overlay">
+      <div className="text-center px-6">
+        <div className="display-stretch text-3xl md:text-5xl text-nerv-orange text-glow-orange">おめでとう。</div>
+        <div className="font-stamp tracking-[0.5em] text-foreground/80 mt-3">CONGRATULATIONS.</div>
+        <div className="font-mono text-[11px] text-foreground/50 mt-4">- to all the children -</div>
+      </div>
+    </div>
+  );
+}
