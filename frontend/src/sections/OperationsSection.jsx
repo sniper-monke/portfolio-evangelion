@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { PROJECTS, NERV_MEDIA } from "../data/portfolio";
 import TerminalScreen, { CmdRunHeader } from "../components/TerminalScreen";
 
@@ -10,6 +11,17 @@ const OPS_ASCII = `╔═══════════════════�
 
 export default function OperationsSection() {
   const [active, setActive] = useState(null);
+
+  useEffect(() => {
+    if (!active) return;
+    const onKey = (e) => { if (e.key === "Escape") setActive(null); };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [active]);
 
   return (
     <TerminalScreen
@@ -130,12 +142,12 @@ TOTAL   12     08        347      18,265`}</pre>
       <div className="mt-3 hazard-stripe h-2" />
       <div className="mt-2 text-[10px] text-nerv-cyan tracking-widest">// magi&gt; QUERY OK ── 6 ROWS IN SET (0.012s) ── cached at 11:04:55Z</div>
 
-      {active && (
-        <div className="fixed inset-0 z-[200] bg-background/95 backdrop-blur-sm p-3 overflow-y-auto" onClick={() => setActive(null)} data-testid="operation-modal">
-          <div className="max-w-4xl mx-auto term-section nerv" onClick={(e) => e.stopPropagation()}>
+      {active && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm p-3 overflow-y-auto" style={{ isolation: "isolate" }} onClick={() => setActive(null)} data-testid="operation-modal" role="dialog" aria-modal="true">
+          <div className="max-w-4xl mx-auto term-section nerv mt-8" onClick={(e) => e.stopPropagation()}>
             <div className="term-header">
               <span className="text-nerv-orange">● MISSION FILE :: {active.id} :: {active.classification}</span>
-              <button onClick={() => setActive(null)} data-testid="close-modal" className="ml-auto text-nerv-red hover:bg-nerv-red hover:text-background px-2">[X] CLOSE</button>
+              <button onClick={() => setActive(null)} data-testid="close-modal" autoFocus className="ml-auto text-nerv-red hover:bg-nerv-red hover:text-background px-2">[X] CLOSE</button>
             </div>
             <div className="p-3 prompt">
               <CmdRunHeader cmd={`magi-query --get ${active.id}`} />
@@ -155,7 +167,8 @@ TOTAL   12     08        347      18,265`}</pre>
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </TerminalScreen>
   );
