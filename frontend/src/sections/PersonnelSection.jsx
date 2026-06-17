@@ -1,97 +1,109 @@
 import React from "react";
-import { PERSONNEL_FILE, PILOT } from "../data/portfolio";
-
-const SectionHeader = ({ id, code, title, sub }) => (
-  <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 border-b-2 border-nerv-orange/60 pb-3 mb-6">
-    <div>
-      <div className="text-[10px] tracking-[0.4em] text-nerv-orange text-glow-orange">{code}</div>
-      <h2 className="display-stretch text-4xl md:text-6xl text-foreground">{title}</h2>
-    </div>
-    <div className="text-[10px] tracking-widest text-foreground/60 font-mono">{sub}</div>
-  </div>
-);
+import { PERSONNEL_FILE, PILOT, NERV_MEDIA } from "../data/portfolio";
+import TerminalPanel, { SectionHeader, HazardBar } from "../components/TerminalPanel";
+import { ToxicityBars } from "../components/MagiDisplays";
 
 export default function PersonnelSection() {
   return (
-    <section id="personnel" className="px-3 md:px-6 py-20 max-w-7xl mx-auto" data-testid="personnel-section">
-      <SectionHeader code="FILE 01 // ACCESS LEVEL: A-1" title="PERSONNEL FILE" sub="CLASSIFIED DOSSIER // OPENED BY OVERRIDE" />
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
-        <div className="lg:col-span-4 border-2 border-nerv-orange/50 p-4 bg-background/40 relative">
-          <div className="hazard-stripe absolute top-0 left-0 right-0 h-2" />
-          <div className="text-[10px] tracking-widest text-nerv-orange mt-3">DESIGNATION</div>
-          <div className="text-2xl text-foreground font-display tracking-tight">{PILOT.designation}</div>
-          <div className="mt-3 text-[10px] tracking-widest text-nerv-orange">CODENAME</div>
-          <div className="text-xl font-display">{PILOT.codename}</div>
-          <div className="grid grid-cols-2 gap-2 mt-4 text-[11px] font-mono">
-            <div className="text-foreground/60">BLOOD TYPE</div><div>{PILOT.bloodType}</div>
-            <div className="text-foreground/60">BIRTH RECORD</div><div className="text-nerv-red">{PILOT.birthRecord}</div>
-            <div className="text-foreground/60">SYNC RATIO</div><div className="text-nerv-orange">{PILOT.syncRatio}%</div>
-            <div className="text-foreground/60">LOCATION</div><div>{PILOT.location}</div>
-          </div>
-          <div className="mt-4 border-t border-nerv-orange/30 pt-3 text-[10px] tracking-widest text-foreground/60">
-            FILE STAMP // <span className="text-nerv-red font-stamp">EYES ONLY</span>
+    <section id="personnel" className="px-3 md:px-4 py-8" data-testid="personnel-section">
+      <SectionHeader file="FILE-01/PERSONNEL" title="PERSONNEL FILE" sub="DOSSIER OPENED VIA OVERRIDE // EYES ONLY" code="OPEN" status="CLASSIFIED" />
+
+      <div className="grid grid-cols-12 gap-1.5">
+        {/* ID card */}
+        <div className="col-span-12 lg:col-span-3 space-y-1.5">
+          <TerminalPanel file="ID-CARD" title="SUBJECT IDENTIFIER" status="LOCKED" statusColor="text-nerv-red" meta={[{ k: "ID", v: "P-01" }, { k: "REG", v: "TYO-3" }]}>
+            <div className="border border-nerv-orange/40 bg-black aspect-[3/4] p-2 flex flex-col justify-between relative overflow-hidden">
+              <div className="absolute inset-0 dot-grid opacity-40 pointer-events-none" />
+              <div className="relative flex items-start justify-between text-[9px] font-mono tracking-widest text-nerv-orange">
+                <div>NERV/ID/2025-07-{Math.floor(Math.random()*900+100)}</div>
+                <div className="hex-cell bg-nerv-orange/30 w-5 h-5" />
+              </div>
+              <div className="relative flex-1 flex items-center justify-center my-2">
+                <img src={NERV_MEDIA.nervLogo} alt="" className="opacity-30 max-h-32" />
+              </div>
+              <div className="relative">
+                <div className="text-[8px] font-mono text-foreground/60 tracking-widest">SUBJECT NAME</div>
+                <div className="font-stamp text-nerv-orange text-lg tracking-widest">{PILOT.codename}</div>
+                <div className="text-[8px] font-mono text-foreground/70">DESIG ▸ {PILOT.designation} // SYNC ▸ {PILOT.syncRatio}%</div>
+                <div className="hazard-stripe h-1.5 mt-2" />
+                <div className="text-[8px] font-stamp text-nerv-red mt-1 tracking-[0.3em]">★ EYES ONLY ★</div>
+              </div>
+            </div>
+          </TerminalPanel>
+
+          <TerminalPanel file="BIOMETRIC" title="VITAL SIGNS" variant="red" status="MONITORING" statusColor="text-nerv-red">
+            <ToxicityBars items={[
+              { v: 18, label: "FIRST C" },
+              { v: 22, label: "THIRD C" },
+              { v: 14, label: "SECOND C" },
+            ]} />
+          </TerminalPanel>
+        </div>
+
+        {/* Biographical record */}
+        <div className="col-span-12 lg:col-span-6 space-y-1.5">
+          <TerminalPanel file="BIO-001" title="BIOGRAPHICAL RECORD" status="VERIFIED" meta={[{ k: "AUTHOR", v: "DR. K. SOREN" }, { k: "REV", v: "v3.2" }]}>
+            <div className="terminal-line text-foreground/90 whitespace-pre-wrap">
+              <span className="text-nerv-orange">[ENTRY 001]</span> {PERSONNEL_FILE.biography}
+            </div>
+          </TerminalPanel>
+
+          <TerminalPanel file="EDU-002" title="EDUCATION RECORD" status="ACTIVE" meta={[{ k: "ENTRIES", v: PERSONNEL_FILE.education.length.toString() }]}>
+            <div className="space-y-1">
+              {PERSONNEL_FILE.education.map((e, i) => (
+                <div key={i} className="grid grid-cols-12 gap-2 border border-nerv-orange/20 px-2 py-1">
+                  <div className="col-span-1 text-[10px] font-mono text-nerv-orange tracking-widest">EDU-{(i+1).toString().padStart(3,"0")}</div>
+                  <div className="col-span-7">
+                    <div className="text-xs font-mono text-foreground tracking-widest">{e.institution}</div>
+                    <div className="text-[10px] font-mono text-foreground/70 mt-0.5">{e.note}</div>
+                  </div>
+                  <div className="col-span-4 text-right">
+                    <div className="text-[10px] font-mono text-nerv-orange tracking-widest">{e.role}</div>
+                    <div className="text-[10px] font-mono text-foreground/50">{e.years}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </TerminalPanel>
+
+          <div className="grid grid-cols-2 gap-1.5">
+            <TerminalPanel file="ASP-003" title="ASPIRATIONS" status="LOGGED">
+              <div className="terminal-line text-foreground/85">{PERSONNEL_FILE.aspirations}</div>
+            </TerminalPanel>
+            <TerminalPanel file="FUN-004" title="FIELD NOTES" status="UNVERIFIED" statusColor="text-nerv-yellow">
+              <ul className="terminal-line text-foreground/80 space-y-0.5">
+                {PERSONNEL_FILE.funFacts.map((f, i) => <li key={i}><span className="text-nerv-orange">[FN-{String(i+1).padStart(2,"0")}]</span> {f}</li>)}
+              </ul>
+            </TerminalPanel>
           </div>
         </div>
 
-        <div className="lg:col-span-8 border-2 border-foreground/30 p-4 md:p-6 bg-background/40">
-          <div className="text-[10px] tracking-widest text-nerv-orange mb-2">BIOGRAPHY</div>
-          <p className="text-sm md:text-base text-foreground/90 leading-relaxed">{PERSONNEL_FILE.biography}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <div>
-              <div className="text-[10px] tracking-widest text-nerv-orange mb-2">EDUCATION RECORD</div>
-              <div className="space-y-2">
-                {PERSONNEL_FILE.education.map((e, i) => (
-                  <div key={i} className="border border-foreground/20 p-2">
-                    <div className="text-xs text-foreground font-mono">{e.institution}</div>
-                    <div className="text-[10px] text-nerv-orange tracking-widest">{e.role} // {e.years}</div>
-                    <div className="text-[11px] text-foreground/70 mt-1">{e.note}</div>
-                  </div>
-                ))}
-              </div>
+        {/* Tags & traits */}
+        <div className="col-span-12 lg:col-span-3 space-y-1.5">
+          <TerminalPanel file="TAG-001" title="INTERESTS" variant="green" status="ANALYZED" statusColor="text-nerv-green">
+            <div className="flex flex-wrap gap-1">
+              {PERSONNEL_FILE.interests.map((t) => <span key={t} className="label-box text-nerv-green">{t}</span>)}
             </div>
-            <div>
-              <div className="text-[10px] tracking-widest text-nerv-orange mb-2">INTERESTS</div>
-              <div className="flex flex-wrap gap-1 mb-4">
-                {PERSONNEL_FILE.interests.map((t) => (
-                  <span key={t} className="border border-nerv-orange/50 text-nerv-orange px-2 py-0.5 text-[10px] tracking-widest">{t}</span>
-                ))}
-              </div>
-              <div className="text-[10px] tracking-widest text-nerv-orange mb-2">HOBBIES</div>
-              <div className="flex flex-wrap gap-1 mb-4">
-                {PERSONNEL_FILE.hobbies.map((t) => (
-                  <span key={t} className="border border-foreground/30 text-foreground/80 px-2 py-0.5 text-[10px] tracking-widest">{t}</span>
-                ))}
-              </div>
-              <div className="text-[10px] tracking-widest text-nerv-orange mb-2">PERSONALITY</div>
-              <div className="flex flex-wrap gap-1">
-                {PERSONNEL_FILE.personality.map((t) => (
-                  <span key={t} className="border border-nerv-green/50 text-nerv-green px-2 py-0.5 text-[10px] tracking-widest">{t}</span>
-                ))}
-              </div>
+          </TerminalPanel>
+          <TerminalPanel file="TAG-002" title="HOBBIES" status="LOGGED">
+            <div className="flex flex-wrap gap-1">
+              {PERSONNEL_FILE.hobbies.map((t) => <span key={t} className="label-box text-foreground/80">{t}</span>)}
             </div>
-          </div>
-
-          <div className="mt-6 border-t border-foreground/20 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <div className="text-[10px] tracking-widest text-nerv-orange mb-1">ASPIRATIONS</div>
-              <p className="text-sm text-foreground/90">{PERSONNEL_FILE.aspirations}</p>
+          </TerminalPanel>
+          <TerminalPanel file="TAG-003" title="PERSONALITY" variant="red" status="PROFILED" statusColor="text-nerv-red">
+            <div className="flex flex-wrap gap-1">
+              {PERSONNEL_FILE.personality.map((t) => <span key={t} className="label-box text-nerv-red">{t}</span>)}
             </div>
-            <div>
-              <div className="text-[10px] tracking-widest text-nerv-orange mb-1">FAVORITE MEDIA</div>
-              <ul className="text-sm font-mono text-foreground/80 space-y-0.5">
-                {PERSONNEL_FILE.favoriteMedia.map((m) => <li key={m}>› {m}</li>)}
-              </ul>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="text-[10px] tracking-widest text-nerv-orange mb-1">FUN FACTS // FIELD NOTES</div>
-            <ul className="text-sm font-mono text-foreground/80 space-y-0.5">
-              {PERSONNEL_FILE.funFacts.map((m) => <li key={m}>// {m}</li>)}
+          </TerminalPanel>
+          <TerminalPanel file="MEDIA-005" title="FAVORITE MEDIA" status="ARCHIVED">
+            <ul className="terminal-line text-foreground/85">
+              {PERSONNEL_FILE.favoriteMedia.map((m, i) => <li key={i}><span className="text-nerv-orange">{String(i+1).padStart(2,"0")}.</span> {m}</li>)}
             </ul>
-          </div>
+          </TerminalPanel>
         </div>
       </div>
+
+      <div className="mt-2"><HazardBar label="END OF FILE-01 // PROCEED TO FILE-02 // OPERATIONS LOG" /></div>
     </section>
   );
 }

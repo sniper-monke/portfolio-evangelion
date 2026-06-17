@@ -23,7 +23,8 @@ import {
   CongratulationsOverlay,
 } from "./components/Overlays";
 import { InstrumentalityPage, DogPage } from "./components/HiddenPages";
-import { PILOT } from "./data/portfolio";
+import { PILOT, EPISODES } from "./data/portfolio";
+import TitleCard from "./components/TitleCard";
 
 const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
 
@@ -163,30 +164,36 @@ export default function App() {
 
       <main className="pt-16 pb-16">
         <HeroSection onSound={sfx.click} />
+        <TitleCard {...EPISODES.personnel} />
         <PersonnelSection />
+        <TitleCard {...EPISODES.operations} />
         <OperationsSection />
+        <TitleCard {...EPISODES.skills} />
         <SkillsSection />
+        <TitleCard {...EPISODES.economics} />
         <EconomicsSection />
+        <TitleCard {...EPISODES.achievements} />
         <AchievementsSection unlocked={unlocked} />
+        <TitleCard {...EPISODES.gallery} />
         <GallerySection />
+        <TitleCard {...EPISODES.status} />
         <StatusSection />
+        <TitleCard {...EPISODES.contact} />
         <ContactSection />
 
-        <section className="px-3 md:px-6 py-12 max-w-7xl mx-auto text-center" data-testid="session-end">
-          <div className="border-2 border-nerv-orange/60 py-10">
-            <div className="text-[10px] tracking-[0.5em] text-nerv-orange text-glow-orange">END OF FILE</div>
-            <div className="display-stretch text-3xl md:text-5xl text-foreground mt-2">Thank you for visiting the NERV archives.</div>
-            <button
-              onClick={() => setOverlay("ending")}
-              data-testid="terminate-session"
-              data-cursor="hover"
-              className="mt-6 border-2 border-nerv-red text-nerv-red px-4 py-1.5 text-xs tracking-widest hover:bg-nerv-red hover:text-background"
-            >
-              ▣ TERMINATE SESSION
-            </button>
-            <div className="mt-6 font-mono text-[10px] tracking-widest text-foreground/50">
-              ＮＥＲＶ © {new Date().getFullYear()} — Built by Pilot-01. Press ~ for hidden terminal. Try the Konami code.
+        <section className="px-3 md:px-6 py-12" data-testid="session-end">
+          <div className="border-2 border-nerv-orange/60 bg-background/60 relative">
+            <div className="hazard-stripe h-2" />
+            <div className="text-center py-8">
+              <div className="text-[10px] mono-tag text-nerv-orange/80">END OF FILE // ARCHIVE COMPLETE</div>
+              <div className="display-stretch text-2xl md:text-4xl text-foreground mt-1">THANK YOU FOR VISITING THE NERV ARCHIVES.</div>
+              <div className="mt-2 text-[10px] font-mono tracking-widest text-foreground/60">SESSION ID :: 0xA7F3-91 // {new Date().toUTCString().slice(5, 25)} UTC</div>
+              <button onClick={() => setOverlay("ending")} data-testid="terminate-session" data-cursor="hover" className="mt-4 label-box border-nerv-red text-nerv-red hover:bg-nerv-red hover:text-background px-3 py-1">▣ TERMINATE SESSION</button>
+              <div className="mt-4 text-[10px] font-mono tracking-widest text-foreground/40">
+                ＮＥＲＶ © {new Date().getFullYear()} :: PILOT-01 :: PRESS ~ FOR HIDDEN TERMINAL :: KONAMI CODE ACTIVE
+              </div>
             </div>
+            <div className="hazard-stripe h-2" />
           </div>
         </section>
       </main>

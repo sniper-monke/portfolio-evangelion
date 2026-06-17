@@ -1,0 +1,31 @@
+{
+  "summary": "End-to-end frontend re-test of the NERV Evangelion portfolio refactor (iteration 2). All 14 review-request scenarios verified PASS on the public preview URL: fresh boot + Skip button, hero dense terminal (NERV/ARCHIVE/FILE/00/HOME header, MAGI hex with BALTHASAR-2/CASPER-3/MELCHIOR-1, Harmonics waveform, Active Time digital clock, 3-CORE STATUS panel, A-17 LOCATION TELEMETRY, WARNING BUFFER), AARAV KRISHNA renders in Anton block font (computed font-family confirmed: 'Anton, Oswald, JetBrains Mono, sans-serif'; Anton actually loaded via document.fonts.check), 8 episode-card dividers each with 'NEON GENESIS EVANGELION', Personnel FILE-01 panels (ID-CARD/BIO-001/EDU-002/ASP-003/FUN-004/TAG-001/MEDIA-005/MENTAL TOXICITY) all present, Operations FILE-02 row-table with IDX/DESIGNATION columns and MISSION TELEMETRY stats — operation row click opens [data-testid=operation-modal] and close via [data-testid=close-modal] works, Skills FILE-03 with HARMONICS, Economics FILE-04 with THESIS INDEX + HIDDEN ROUTE, Achievements FILE-05, Gallery FILE-06 with ARCHIVE STATS, Status FILE-07, Contact FILE-08 with form testids (contact-name/email/message/submit). All easter eggs work: 9 nav buttons (nav-home/personnel/operations/skills/economics/achievements/gallery/status/contact), mode-toggle adds pro-mode class on <html>, sound-toggle, resume-download, NERV-logo-btn x10 -> third-impact overlay, ~ -> secret-terminal, Konami code -> SEELE overlay, terminate-session -> ending-screen. Contact form shows 'TRANSMISSION COMPLETE' gracefully despite expected Web3Forms placeholder. All 5 external images load (3 customer-assets.emergentagent.com + TkOO9fF/6mDPV0L/ebxjA8x.jpg from imgur, all 200 OK) after scroll-induced lazy load. Zero blocking console errors, zero page errors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "Contact form / Web3Forms", "issue": "Pre-existing: Web3Forms still uses placeholder access_key (REPLACE_WITH_WEB3FORMS_KEY); request fails with CORS but UI logs 'TRANSMISSION COMPLETE' as intended.", "affected_selectors": ["[data-testid='contact-submit']"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "(Optional) Review request used 'nav-projects' and 'nav-economic' but actual testids are 'nav-operations' and 'nav-economics' — implementation is consistent with iteration_1 and intentional; no fix needed unless naming is to be updated.",
+    "(Optional) Operations rows use [data-testid=operation-OP-001..006] (not operation-row-*) and modal close is [data-testid=close-modal] (not operation-modal-close) — documented for future testers.",
+    "(Pre-existing, low priority) Replace Web3Forms placeholder access_key for real production usage."
+  ],
+  "critical_code_review_comments": [
+    "TitleCard is rendered 8x — TitleCard.jsx adds an absolute-positioned scanline overlay div on every divider; could be lifted to a single root pseudo-element for marginal perf, but currently fine.",
+    "MagiHexDisplay and HarmonicsGraph each install their own setInterval/requestAnimationFrame loops; they keep running even when scrolled off-screen. Consider an IntersectionObserver to pause them when not visible (minor battery/CPU optimisation).",
+    "Some external images (e.g. EVA UI references in Operations sidebar and Economics QUAD) rely on Cloudflare-fronted imgur URLs that return image/png despite .jpg extension; X-Content-Type-Options: nosniff is set and they load fine in practice, but for safety consider mirroring them under /public or customer-assets.",
+    "App.js (still 220 lines) and absence of a centralised easter-egg/overlay reducer remain from iteration_1 — not a regression."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped per request)", "frontend": "100% (14/14 review-request scenarios passed)"},
+  "test_credentials": "N/A — no auth in this static app",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Iteration 2 refactor verified intact at https://nerv-archives-aarav.preview.emergentagent.com. Boot gated by localStorage key 'nerv_boot_done_v1' — clear localStorage to retest boot. 8 [data-testid='episode-card'] dividers inserted between sections via App.js + TitleCard.jsx + EPISODES map in data/portfolio.js. Hero is dense FILE/00/HOME terminal with MagiHexDisplay + HarmonicsGraph + ActiveTimeDisplay (components/MagiDisplays.jsx). All section testids unchanged from iteration_1. Nav testids use IDs from NAV_LINKS in Navigation.jsx: nav-home/personnel/operations/skills/economics/achievements/gallery/status/contact. Operation rows are [data-testid=operation-OP-001] through 006, modal closes via [data-testid=close-modal]. Anton & Oswald fonts loaded via Google Fonts link in public/index.html; computed font-family for AARAV KRISHNA = 'Anton, Oswald, JetBrains Mono, sans-serif' and document.fonts.check('20px Anton') = true. Web3Forms still mocked.",
+  "rca of the issue": "No bugs found. Two minor false negatives in initial test run were test-script artefacts: (a) imgur images appeared to fail with naturalWidth=0 because they're lazy-loaded and weren't yet in viewport — after scrolling all 5 external images load with correct dimensions and HTTP 200; (b) 'FILE-00' wasn't found as a literal substring because the hero renders the path as 'FILE/00/HOME' (slashes), which is a cosmetic naming choice in HeroSection.jsx line 62 and matches Evangelion-style title styling."
+}

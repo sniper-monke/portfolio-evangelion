@@ -1,84 +1,103 @@
 import React, { useState } from "react";
-import { PROJECTS } from "../data/portfolio";
+import { PROJECTS, NERV_MEDIA } from "../data/portfolio";
+import TerminalPanel, { SectionHeader, HazardBar } from "../components/TerminalPanel";
+
+function OpRow({ p, idx, onOpen }) {
+  return (
+    <button onClick={() => onOpen(p)} data-testid={`operation-${p.id}`} data-cursor="hover" className="text-left grid grid-cols-12 gap-2 border border-nerv-orange/40 hover:border-nerv-orange bg-background/40 p-1.5 group transition-colors w-full">
+      <div className="col-span-1 hidden md:flex items-center justify-center border-r border-nerv-orange/30">
+        <span className="font-stamp text-nerv-orange text-glow-orange text-xl tracking-widest">{String(idx+1).padStart(2,"0")}</span>
+      </div>
+      <div className="col-span-3 md:col-span-2 aspect-[16/10] overflow-hidden border border-nerv-orange/30 relative">
+        <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover opacity-70 group-hover:opacity-100" />
+        <span className="absolute top-0 left-0 bg-black/85 text-[8px] tracking-widest text-nerv-orange px-1">{p.id}</span>
+      </div>
+      <div className="col-span-9 md:col-span-6">
+        <div className="flex items-center gap-2 mb-0.5">
+          <span className="font-stamp text-foreground text-lg md:text-xl tracking-widest group-hover:text-nerv-orange transition-colors">{p.name}</span>
+          <span className="label-box text-nerv-red border-nerv-red text-[9px]">{p.classification}</span>
+        </div>
+        <div className="text-[11px] font-mono text-foreground/80 leading-tight">{p.summary}</div>
+        <div className="flex flex-wrap gap-1 mt-1">
+          {p.tech.slice(0,5).map((t) => <span key={t} className="label-box text-foreground/70 border-foreground/30 text-[9px]">{t}</span>)}
+        </div>
+      </div>
+      <div className="col-span-12 md:col-span-3 border-l-0 md:border-l border-nerv-orange/20 md:pl-2 text-[10px] font-mono tracking-widest">
+        <div className="text-foreground/50">STATUS</div>
+        <div className="text-nerv-green">● OPERATIONAL</div>
+        <div className="text-foreground/50 mt-1">REGISTERED</div>
+        <div className="text-foreground">2024-Q{(idx%4)+1}</div>
+        <div className="text-foreground/50 mt-1">▸ OPEN MISSION FILE</div>
+      </div>
+    </button>
+  );
+}
 
 export default function OperationsSection() {
   const [active, setActive] = useState(null);
-
   return (
-    <section id="operations" className="px-3 md:px-6 py-20 max-w-7xl mx-auto" data-testid="operations-section">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 border-b-2 border-nerv-orange/60 pb-3 mb-6">
-        <div>
-          <div className="text-[10px] tracking-[0.4em] text-nerv-orange text-glow-orange">FILE 02 // OPERATIONS LOG</div>
-          <h2 className="display-stretch text-4xl md:text-6xl text-foreground">PROJECT ARCHIVES</h2>
+    <section id="operations" className="px-3 md:px-4 py-8" data-testid="operations-section">
+      <SectionHeader file="FILE-02/OPERATIONS" title="OPERATIONS LOG" sub={`${PROJECTS.length} OPERATIONS REGISTERED // SORT: CHRONO`} code="LOG" status="OPERATIONAL" />
+
+      <div className="grid grid-cols-12 gap-1.5">
+        <div className="col-span-12 lg:col-span-9 space-y-1">
+          <div className="grid grid-cols-12 gap-2 text-[9px] font-mono tracking-widest text-nerv-orange/80 border border-nerv-orange/40 bg-nerv-orange/5 px-2 py-1">
+            <div className="col-span-1 hidden md:block">IDX</div>
+            <div className="col-span-3 md:col-span-2">VISUAL</div>
+            <div className="col-span-9 md:col-span-6">DESIGNATION // BRIEF</div>
+            <div className="col-span-12 md:col-span-3">META</div>
+          </div>
+          {PROJECTS.map((p, i) => <OpRow key={p.id} p={p} idx={i} onOpen={setActive} />)}
         </div>
-        <div className="text-[10px] tracking-widest text-foreground/60 font-mono">{PROJECTS.length} OPERATIONS REGISTERED</div>
+
+        <aside className="col-span-12 lg:col-span-3 space-y-1.5">
+          <TerminalPanel file="STATS" title="MISSION TELEMETRY" variant="green" status="LIVE" statusColor="text-nerv-green">
+            <div className="grid grid-cols-2 gap-1 text-[10px] font-mono tracking-widest">
+              <div className="border border-nerv-green/40 p-1"><div className="text-foreground/50">TOTAL</div><div className="text-nerv-green text-lg font-stamp">{PROJECTS.length.toString().padStart(2,"0")}</div></div>
+              <div className="border border-nerv-green/40 p-1"><div className="text-foreground/50">ACTIVE</div><div className="text-nerv-green text-lg font-stamp">06</div></div>
+              <div className="border border-nerv-green/40 p-1"><div className="text-foreground/50">SHIPPED</div><div className="text-nerv-orange text-lg font-stamp">14</div></div>
+              <div className="border border-nerv-green/40 p-1"><div className="text-foreground/50">STARS</div><div className="text-nerv-orange text-lg font-stamp">347</div></div>
+            </div>
+          </TerminalPanel>
+
+          <TerminalPanel file="CONNECT" title="MAGI/MIRROR" classification="WIRE" status="OK" meta={[{ k: "EXT", v: "6008" }]}>
+            <div className="terminal-line space-y-0.5">
+              <div><span className="text-nerv-green">●</span> github.com/aaravkrishna ............ OK</div>
+              <div><span className="text-nerv-green">●</span> linkedin.com/in/aaravkrishna ....... OK</div>
+              <div><span className="text-nerv-red">●</span> drive.tokyo-3/file-store ........... LOCKED</div>
+              <div><span className="text-nerv-yellow">●</span> npmjs.com/~aaravkrishna ............ STALE</div>
+            </div>
+          </TerminalPanel>
+
+          <TerminalPanel file="VISUAL/00" title="EVA-UI REFERENCE" variant="white" status="ARCHIVED">
+            <img src={NERV_MEDIA.fui1} alt="EVA FUI archive frame" loading="lazy" className="w-full border border-foreground/30" />
+            <div className="text-[9px] font-mono tracking-widest text-foreground/60 mt-1">FRM-001 // RECOVERED FROM NERV/ARC/UI</div>
+          </TerminalPanel>
+        </aside>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {PROJECTS.map((p, idx) => (
-          <button
-            key={p.id}
-            onClick={() => setActive(p)}
-            data-testid={`operation-${p.id}`}
-            data-cursor="hover"
-            className="text-left border-2 border-nerv-orange/40 hover:border-nerv-orange bg-background/40 group transition-colors relative overflow-hidden"
-          >
-            <div className="aspect-[16/9] overflow-hidden border-b-2 border-nerv-orange/40 relative">
-              <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute inset-0 grid-bg pointer-events-none mix-blend-overlay" />
-              <div className="absolute top-1 left-1 text-[10px] tracking-widest text-nerv-orange bg-background/80 px-1">{p.id}</div>
-              <div className="absolute top-1 right-1 text-[10px] tracking-widest text-nerv-red font-stamp">{p.classification}</div>
-            </div>
-            <div className="p-3">
-              <div className="font-display text-xl tracking-tight text-foreground group-hover:text-nerv-orange transition-colors">{p.name}</div>
-              <div className="text-[11px] text-foreground/70 mt-1 line-clamp-2">{p.summary}</div>
-              <div className="flex flex-wrap gap-1 mt-2">
-                {p.tech.slice(0, 4).map((t) => (
-                  <span key={t} className="border border-foreground/30 text-foreground/70 px-1.5 py-0.5 text-[9px] tracking-widest">{t}</span>
-                ))}
-              </div>
-            </div>
-            <div className="absolute bottom-0 right-0 text-[10px] text-nerv-orange/60 p-2 tracking-widest">
-              [{String(idx + 1).padStart(2, "0")}] › OPEN
-            </div>
-          </button>
-        ))}
-      </div>
+      <div className="mt-2"><HazardBar label="END OF FILE-02 // PROCEED TO FILE-03 // SYNC RATIO TEST" /></div>
 
       {active && (
-        <div
-          className="fixed inset-0 z-[200] bg-background/95 backdrop-blur-sm p-4 md:p-10 overflow-y-auto"
-          onClick={() => setActive(null)}
-          data-testid="operation-modal"
-        >
-          <div className="max-w-4xl mx-auto border-2 border-nerv-orange p-5 md:p-8 bg-background relative" onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={() => setActive(null)}
-              data-testid="close-modal"
-              className="absolute top-2 right-2 text-nerv-orange border border-nerv-orange/60 px-2 py-0.5 text-xs tracking-widest hover:bg-nerv-orange hover:text-background"
-            >
-              CLOSE [X]
-            </button>
-            <div className="text-[10px] tracking-widest text-nerv-orange">OPERATION FILE // {active.id} // {active.classification}</div>
-            <h3 className="display-stretch text-4xl md:text-5xl mt-2 text-nerv-orange text-glow-orange">{active.name}</h3>
-            <div className="grid md:grid-cols-2 gap-4 mt-4">
-              <img src={active.image} alt={active.name} className="w-full border-2 border-nerv-orange/40" />
-              <div>
-                <div className="text-[10px] tracking-widest text-nerv-orange mb-1">MISSION SUMMARY</div>
-                <p className="text-sm">{active.detail}</p>
-                <div className="text-[10px] tracking-widest text-nerv-orange mt-3 mb-1">TECH STACK</div>
-                <div className="flex flex-wrap gap-1">
-                  {active.tech.map((t) => (
-                    <span key={t} className="border border-nerv-orange/60 text-nerv-orange px-2 py-0.5 text-[10px] tracking-widest">{t}</span>
-                  ))}
-                </div>
-                <div className="flex gap-2 mt-4">
-                  <a href={active.github} target="_blank" rel="noreferrer" className="border-2 border-foreground px-3 py-1 text-xs tracking-widest hover:bg-foreground hover:text-background">
-                    GITHUB ↗
-                  </a>
-                  <a href={active.demo} target="_blank" rel="noreferrer" className="border-2 border-nerv-orange text-nerv-orange px-3 py-1 text-xs tracking-widest hover:bg-nerv-orange hover:text-background">
-                    LIVE ↗
-                  </a>
+        <div className="fixed inset-0 z-[200] bg-background/95 backdrop-blur-sm p-3 md:p-6 overflow-y-auto" onClick={() => setActive(null)} data-testid="operation-modal">
+          <div className="max-w-4xl mx-auto border-2 border-nerv-orange bg-background relative" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-nerv-orange/60 px-2 py-1 text-[10px] tracking-widest font-mono text-nerv-orange">
+              <span>OPERATION FILE :: {active.id} :: {active.classification}</span>
+              <button onClick={() => setActive(null)} data-testid="close-modal" className="text-nerv-red hover:bg-nerv-red hover:text-background px-2">CLOSE [X]</button>
+            </div>
+            <div className="p-3 md:p-5">
+              <div className="display-stretch text-3xl md:text-5xl text-nerv-orange text-glow-orange">{active.name}</div>
+              <div className="grid md:grid-cols-2 gap-2 mt-3">
+                <img src={active.image} alt={active.name} className="w-full border-2 border-nerv-orange/40" />
+                <div>
+                  <div className="text-[10px] mono-tag text-foreground/60">MISSION BRIEF</div>
+                  <p className="terminal-line text-foreground/90 mt-1">{active.detail}</p>
+                  <div className="text-[10px] mono-tag text-foreground/60 mt-3">TECH STACK</div>
+                  <div className="flex flex-wrap gap-1 mt-1">{active.tech.map((t) => <span key={t} className="label-box text-nerv-orange">{t}</span>)}</div>
+                  <div className="flex gap-2 mt-4">
+                    <a href={active.github} target="_blank" rel="noreferrer" className="label-box text-foreground hover:bg-foreground hover:text-background">GITHUB ↗</a>
+                    <a href={active.demo} target="_blank" rel="noreferrer" className="label-box text-nerv-orange hover:bg-nerv-orange hover:text-background">LIVE DEMO ↗</a>
+                  </div>
                 </div>
               </div>
             </div>

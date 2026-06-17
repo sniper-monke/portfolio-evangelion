@@ -90,13 +90,69 @@
   .cursor-none, .cursor-none * { cursor: auto !important; }
 }
 
-/* Display headline transform */
+/* Block headline — Anton stamp style (no editorial serif) */
 .display-stretch {
-  font-family: 'Noto Serif Display', serif;
-  font-weight: 900;
-  letter-spacing: -0.04em;
+  font-family: 'Anton', 'Oswald', 'JetBrains Mono', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  line-height: 0.9;
+  line-height: 0.95;
+}
+.label-stamp {
+  font-family: 'Anton', 'Oswald', sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.mono-tag {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+.terminal-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.label-box {
+  border: 1px solid currentColor;
+  padding: 1px 6px;
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+.warn-box {
+  border: 1px solid #FFD700;
+  color: #FFD700;
+  padding: 2px 6px;
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 0.22em;
+}
+.hex-cell {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.tick-x {
+  background-image: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 16px);
+  height: 6px;
+}
+.tick-y {
+  background-image: repeating-linear-gradient(0deg, currentColor 0 1px, transparent 1px 16px);
+  width: 6px;
+}
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(255,107,0,0.18) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+.pro-mode .dot-grid {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.18) 1px, transparent 1px);
+}
+.crt-screen {
+  background:
+    radial-gradient(ellipse at center, rgba(80,255,80,0.06), transparent 70%),
+    #020a02;
 }
 
 .hazard-stripe {

@@ -208,4 +208,25 @@ export const CURRENT_STATUS = [
 export const NERV_MEDIA = {
   nervLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/NERV_logo.svg/800px-NERV_logo.svg.png",
   seeleLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Seele_logo.svg/1024px-Seele_logo.svg.png",
+  // Authentic Evangelion UI/title cards (user-provided + imgur album mvW7g)
+  magiDeliberation: "https://customer-assets.emergentagent.com/job_nerv-archives-aarav/artifacts/h91tlhtk_image.png",
+  harmonicsGraph: "https://customer-assets.emergentagent.com/job_nerv-archives-aarav/artifacts/umbz8vym_image.png",
+  fourPanelHud: "https://customer-assets.emergentagent.com/job_nerv-archives-aarav/artifacts/g59l9ygp_image.png",
+  episodeOneCard: "https://customer-assets.emergentagent.com/job_nerv-archives-aarav/artifacts/a1cp97p8_image.png",
+  fui1: "https://i.imgur.com/TkOO9fF.jpg",
+  fui2: "https://i.imgur.com/6mDPV0L.jpg",
+  fui3: "https://i.imgur.com/ebxjA8x.jpg",
 };
+
+// Episode title cards interspersed between sections
+export const EPISODES = {
+  personnel:    { episode: "貳",   titleJp: "見知らぬ、天井", titleEn: "THE BEAST", subtitle: "PERSONNEL FILE // PILOT-01 DOSSIER" },
+  operations:   { episode: "参",   titleJp: "鳴らない、電話", titleEn: "OPERATIONS LOG", subtitle: "PROJECT ARCHIVE // CONFIRMED HITS" },
+  skills:       { episode: "肆",   titleJp: "雨、逃げ出した後", titleEn: "SYNC RATIO TEST", subtitle: "EVANGELION HARMONICS // CHANNEL A" },
+  economics:    { episode: "伍",   titleJp: "レイ、心のむこうに", titleEn: "DIVISION-E", subtitle: "ECONOMIC ANALYSIS // SECTOR 7" },
+  achievements: { episode: "陸",   titleJp: "決戦、第3新東京市", titleEn: "NERV RECORDS", subtitle: "DECISIVE BATTLE // TOKYO-3" },
+  gallery:      { episode: "漆",   titleJp: "人の造りしもの", titleEn: "WORKS OF MAN", subtitle: "ART ARCHIVE // VISUAL EVIDENCE" },
+  status:       { episode: "捌",   titleJp: "アスカ、来日",   titleEn: "CURRENT OPS", subtitle: "REAL-TIME PILOT TELEMETRY" },
+  contact:      { episode: "玖",   titleJp: "瞬間、心、重ねて", titleEn: "OPEN CHANNEL", subtitle: "COMMS PIPE // ENCRYPTED" },
+};
+
