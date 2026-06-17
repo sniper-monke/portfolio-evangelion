@@ -1,0 +1,105 @@
+{
+  "project_name": "PROJECT NERV — EVANGELION PERSONAL PORTFOLIO",
+  "theme": "DARK",
+  "archetype": "7 (Electric & Neon) customized to Military Brutalist Terminal",
+  "modes": {
+    "nerv_mode": "Full effects, intense dark terminal aesthetic, CRT scanlines, glitch animations, heavy neon. Colors: Black base, Orange/Red/Green accents.",
+    "professional_mode": "Rebuild Evangelion UI aesthetic. Clean white panels, sharp black typography, minimalist orange accents, reduced motion (prefers-reduced-motion respected). Light theme."
+  },
+  "colors": {
+    "nerv_mode_dark": {
+      "base": "#050505",
+      "surface": "#0a0a0a",
+      "primary": "#FF6B00",
+      "secondary": "#50FF50",
+      "alert_red": "#FF3030",
+      "text_main": "#D8D8D0",
+      "warning_yellow": "#FFD700",
+      "wire_cyan": "#20F0FF"
+    },
+    "professional_mode_light": {
+      "base": "#F4F4F5",
+      "surface": "#FFFFFF",
+      "primary": "#FF6B00",
+      "secondary": "#000000",
+      "alert_red": "#E60000",
+      "text_main": "#18181B",
+      "warning_yellow": "#D4AF37",
+      "wire_cyan": "#00AEEF"
+    }
+  },
+  "typography": {
+    "headings": {
+      "family": "'Noto Serif Display', 'Playfair Display', serif",
+      "weight": "900",
+      "styling": "tracking-tighter uppercase",
+      "custom_css": "transform: scaleX(0.85); transform-origin: left center;"
+    },
+    "terminals_and_data": {
+      "family": "'JetBrains Mono', 'Space Mono', monospace",
+      "weight": "400",
+      "styling": "tracking-tight"
+    },
+    "warnings_and_stamps": {
+      "family": "'Anton', 'Oswald', sans-serif",
+      "weight": "700",
+      "styling": "uppercase tracking-widest"
+    },
+    "japanese_institutional": {
+      "family": "'Noto Sans JP', 'Shippori Mincho', sans-serif",
+      "styling": "tracking-widest"
+    }
+  },
+  "layout_and_spacing": {
+    "grid_system": "MODE B: THE 'CONTROL ROOM' GRID. Strict grid hierarchy (grid-cols-1 md:grid-cols-3 lg:grid-cols-4), tight gaps (gap-1 to gap-4). Every pixel utilized.",
+    "border_radius": "rounded-none. Sharp edges only. No soft corners.",
+    "borders": "1px or 2px solid borders. NERV Mode uses border-orange-500/50 or border-green-500/50. Professional Mode uses border-zinc-300 or border-black.",
+    "spacing_scale": "Dense inside terminal blocks (p-2, p-4), generous between major sections (py-24)."
+  },
+  "surfaces": {
+    "nerv_mode": "Retro-Futurism Terminal. Deep black/indigo background. Neon borders. Repeating-linear-gradient for scanlines. No soft shadows. 1px solid strokes or drop-shadow on text.",
+    "professional_mode": "Swiss & High-Contrast. Flat solid white surfaces, stark black grid lines, pure functional color for alerts."
+  },
+  "motion_and_interactions": {
+    "crt_flicker": "Subtle opacity and translate animation on the entire container to simulate CRT refresh.",
+    "scanlines": "Fixed overlay with pointer-events-none using repeating linear gradient (black and transparent).",
+    "boot_sequence": "12-second terminal boot sequence overlay. Typed commands, loading percentages, authorization checks. Persist skip in localStorage.",
+    "glitch_effect": "CSS clip-path animations on hover for titles and main images.",
+    "hexagon_transitions": "Used for unlocking NERV Records (Achievements) and page reveals.",
+    "custom_cursor": "AT-Field custom cursor. Small glowing dot that expands into concentric octagons on click."
+  },
+  "components": {
+    "buttons": "Rectangular, sharp edges. NERV Mode: Black bg, neon border, text color matches border, hover inverts colors. Prof Mode: Black bg, white text, orange hover.",
+    "cards": "Cardless look. Data tables, strict grid borders, hazard striping backgrounds on headers.",
+    "progress_bars": "Segmented blocks instead of smooth fills (Synchronization Ratios).",
+    "modals": "Full-screen or strictly geometric overlays. 'CLASSIFIED' stamps."
+  },
+  "media_urls": {
+    "nerv_logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/NERV_logo.svg/800px-NERV_logo.svg.png",
+    "seele_logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Seele_logo.svg/1024px-Seele_logo.svg.png",
+    "abstract_hex_grid": "https://images.unsplash.com/photo-1640906152676-dace6710d24b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwxfHxoZXhhZ29uJTIwdGV4dHVyZSUyMGFic3RyYWN0JTIwYmxhY2t8ZW58MHx8fHwxNzgxNjkwNjI0fDA&ixlib=rb-4.1.0&q=85",
+    "abstract_green_terminal": "https://images.unsplash.com/photo-1610219542098-df1753da93bc?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGdyZWVuJTIwdGVybWluYWwlMjBncmlkfGVufDB8fHx8MTc4MTY5MDYyNHww&ixlib=rb-4.1.0&q=85",
+    "magi_screen_placeholder": "https://images.unsplash.com/photo-1544631008-534b4b6c1215?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwyfHxoZXhhZ29uJTIwdGV4dHVyZSUyMGFic3RyYWN0JTIwYmxhY2t8ZW58MHx8fHwxNzgxNjkwNjI0fDA&ixlib=rb-4.1.0&q=85"
+  },
+  "audio": {
+    "toggle": "Required CC0 SFX toggle. Use standard open-source terminal beeps and alarms.",
+    "events": "Hover beeps, boot sequence diagnostic sounds, warning klaxons for Easter Eggs."
+  },
+  "easter_eggs": {
+    "konami_code": "Triggers SEELE interface override (monoliths, 'SOUND ONLY').",
+    "nerv_logo_clicks": "10 clicks on NERV logo triggers 'Third Impact' screen.",
+    "human_instrumentality": "Hidden path in command line.",
+    "localStorage": "Track discovered secrets. E.g., 'angel_detected: true'."
+  },
+  "instructions_to_main_agent": [
+    "This is a frontend-only static site. Do not implement a backend.",
+    "Use standard Tailwind CSS classes. Extend tailwind.config.js for custom fonts (Noto Serif Display, JetBrains Mono, Anton) and colors (nerv-orange, terminal-green, alert-red).",
+    "Implement two distinct visual modes: NERV Mode (dark, heavy animations, CRT effects) and Professional Mode (light, Rebuild-style clean panels, minimal animations). Ensure this toggle is prominent.",
+    "Apply the 'Control Room' bento grid protocol for the layout. Avoid standard soft Shadcn cards; make them brutal, sharp-edged, and bordered.",
+    "Add a 12s Boot Sequence that sets the tone, but allow skipping and persist skip preference via localStorage.",
+    "For the Command Line hidden terminal, create a simple interactive input component that processes hardcoded commands.",
+    "Ensure all interactive elements have data-testid attributes.",
+    "Use pure HTML + Tailwind for complex structural grid layouts, but rely on customized Shadcn (sharp edges, no radius) for complex logical components like Dialogs or Tabs.",
+    "Integrate Formspree or Web3Forms for the contact form."
+  ]
+}
