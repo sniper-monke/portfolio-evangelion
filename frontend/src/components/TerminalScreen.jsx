@@ -21,20 +21,17 @@ export default function TerminalScreen({
     const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
-  const bootKey = bootLines.join("\0");
   useEffect(() => {
     if (!bootLines.length) return;
     setStreamed(0);
+    let i = 0;
     const id = setInterval(() => {
-      setStreamed((s) => {
-        if (s >= bootLines.length) return s;
-        const next = s + 1;
-        if (next >= bootLines.length) clearInterval(id);
-        return next;
-      });
+      i++;
+      setStreamed(i);
+      if (i >= bootLines.length) clearInterval(id);
     }, 120);
     return () => clearInterval(id);
-  }, [bootKey, bootLines.length]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const ts = now.toISOString().replace("T", " ").slice(0, 19);
   const accentColor =
