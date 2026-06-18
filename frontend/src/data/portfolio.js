@@ -130,8 +130,7 @@ export const SKILLS = {
     { name: "REACT / NEXT", value: 90 },
     { name: "FASTAPI", value: 85 },
     { name: "TAILWIND", value: 90 },
-    { name: "PYTORCH", value: 60 },
-    { name: "MESA (AGENT-BASED)", value: 75 },
+
   ],
   TOOLS: [
     { name: "GIT / CI", value: 88 },
@@ -180,10 +179,10 @@ export const ECONOMICS_ESSAYS = [
 ];
 
 export const ACHIEVEMENTS = [
-  { code: "REC-014", title: "ASE ECON OLYMPIAD — REGIONAL WINNER", year: "2023" },
-  { code: "REC-021", title: "INTERNATIONAL MATH OLYMPIAD — HM", year: "2023" },
-  { code: "REC-028", title: "300+ STARS // DOSSIER (OPEN SOURCE)", year: "2024" },
-  { code: "REC-033", title: "SCHOOL INNOVATION PRIZE — GEOFRONT", year: "2024" },
+  { code: "REC-014", title: "OUTSTANDING PERFORMANCE ACHIEVEMENT-95%+ ", year: "2025" },
+  { code: "REC-021", title: "PERSEVERANTIA TECHNICAL OPERATIONS HEAD", year: "2026" },
+  { code: "REC-028", title: "SCOTTISH MODEL UNITED NATIONS TECH OPS HEAD", year: "2026" },
+  { code: "REC-033", title: "", year: "2024" },
   { code: "REC-039", title: "GUEST LECTURE // BEHAVIORAL ECON TO YR 11", year: "2024" },
   { code: "REC-045", title: "PUBLISHED // STUDENT ECON REVIEW VOL.4", year: "2025" },
 ];

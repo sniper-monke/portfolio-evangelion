@@ -97,13 +97,13 @@ export default function HeroSection({ onSound }) {
               &gt; "{typed}{!typedDone && <span className="caret"></span>}"
             </div>
 
-            <div className="mt-2 text-[10px] text-nerv-orange tracking-widest">// CONSOLE ACTIONS ─────────────────────────────────────────────────────</div>
-            <div className="flex flex-wrap gap-1 text-[10px]">
-              <a href="#operations" onClick={onSound} data-testid="cta-explore" data-cursor="hover" className="pill text-nerv-orange hover:bg-nerv-orange hover:text-background">[ENTER] ▸ OPS LOG</a>
-              <a href={PILOT.resumeUrl} download data-testid="cta-resume" data-cursor="hover" className="pill text-nerv-red border-nerv-red hover:bg-nerv-red hover:text-background">[D] ▸ PERSONNEL REPORT</a>
-              <a href="#contact" data-cursor="hover" className="pill text-foreground hover:bg-foreground hover:text-background">[O] ▸ COMMS CHANNEL</a>
-              <span className="pill text-nerv-green border-nerv-green/70">~ ▸ HIDDEN TERMINAL</span>
-              <span className="pill text-foreground/70 border-foreground/40">ESC ▸ ABORT</span>
+            <div className="mt-2 text-[9px] sm:text-[10px] text-nerv-orange tracking-widest">// CONSOLE ACTIONS ─────────────────────────────────────────────────────</div>
+            <div className="flex flex-wrap gap-1 text-[9px] sm:text-[10px]">
+              <a href="#operations" onClick={onSound} data-testid="cta-explore" data-cursor="hover" className="pill text-nerv-orange hover:bg-nerv-orange hover:text-background py-1 sm:py-0">[ENTER] ▸ OPS LOG</a>
+              <a href={PILOT.resumeUrl} download data-testid="cta-resume" data-cursor="hover" className="pill text-nerv-red border-nerv-red hover:bg-nerv-red hover:text-background py-1 sm:py-0">[D] ▸ PERSONNEL REPORT</a>
+              <a href="#contact" data-cursor="hover" className="pill text-foreground hover:bg-foreground hover:text-background py-1 sm:py-0">[O] ▸ COMMS CHANNEL</a>
+              <span className="pill text-nerv-green border-nerv-green/70 py-1 sm:py-0">~ ▸ HIDDEN TERMINAL</span>
+              <span className="pill text-foreground/70 border-foreground/40 py-1 sm:py-0">ESC ▸ ABORT</span>
             </div>
           </div>
 

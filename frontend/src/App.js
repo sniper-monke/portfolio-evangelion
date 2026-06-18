@@ -73,7 +73,7 @@ export default function App() {
         if (next.length === KONAMI.length && next.every((k, i) => k === KONAMI[i])) {
           setOverlay("seele");
           unlock("KONAMI_UNLOCK");
-          sfx.warn();
+          sfx.theme();
           return [];
         }
         return next;
@@ -90,7 +90,7 @@ export default function App() {
       if (Math.random() < 0.5) {
         setOverlay((o) => o ?? "angel");
         unlock("ANGEL_SIGHTED");
-        sfx.warn();
+        sfx.warn(); sfx.alert();
       } else {
         setOverlay((o) => o ?? "fake");
       }
@@ -105,7 +105,7 @@ export default function App() {
       if (n >= 10) {
         setOverlay("third");
         unlock("THIRD_IMPACT");
-        sfx.warn();
+        sfx.theme();
         return 0;
       }
       return n;
@@ -136,7 +136,7 @@ export default function App() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [unlock]);
+  }, [unlock, sfx]);
 
   if (showBoot) {
     return (
@@ -154,16 +154,15 @@ export default function App() {
     <div className="App relative min-h-screen text-foreground">
       <Cursor />
       <Navigation
-        pro={pro}
-        onTogglePro={() => { setPro(!pro); sfx.click(); }}
         sound={sound}
         onToggleSound={() => { setSound(!sound); sfx.beep(); }}
         onLogoClick={handleLogo}
         logoClicks={logoClicks}
+        onTerminalOpen={() => setTerminalOpen(true)}
       />
       <HudOverlay pro={pro} />
 
-      <main className="pt-16 pb-16">
+      <main className="pt-14 sm:pt-16 pb-14 sm:pb-16 overflow-x-hidden">
         <HeroSection onSound={sfx.click} />
         <TitleCard {...EPISODES.personnel} />
         <PersonnelSection />

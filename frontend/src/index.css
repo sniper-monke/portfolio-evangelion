@@ -54,6 +54,7 @@
     font-family: 'JetBrains Mono', monospace;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -372,4 +373,102 @@
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+}
+
+/* ============================================================
+   MOBILE OPTIMISATIONS
+   ============================================================ */
+
+/* Scrollable table wrapper — wrap any .row-rec grid in this */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.table-scroll::-webkit-scrollbar { height: 4px; }
+.table-scroll::-webkit-scrollbar-thumb { background: #FF6B00; }
+
+/* Ensure row-rec content stays compact on small screens */
+@media (max-width: 639px) {
+  .row-rec {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+  }
+  .row-rec > * {
+    padding: 0 4px !important;
+  }
+}
+
+/* Larger touch targets on mobile */
+@media (max-width: 767px) {
+  .touch-target {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Make all interactive elements in nav at least 44px tall */
+  nav button,
+  header button,
+  [data-cursor="hover"] {
+    min-height: 44px;
+  }
+  nav button {
+    min-height: 44px;
+  }
+
+  /* Reduce horizontal padding on mobile sections */
+  .term-section .px-3 {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  /* Ensure ascii banners don't overflow */
+  .ascii-box {
+    font-size: 9px !important;
+    line-height: 1 !important;
+  }
+
+  /* Reduce meta row to 2 columns on smallest screens */
+  .term-section .grid-cols-2.md\\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Compact hazard stripe only on mobile */
+  .hazard-stripe {
+    background-size: 16px 100% !important;
+  }
+}
+
+/* Smooth mobile nav drawer */
+.mobile-drawer-enter {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+.mobile-drawer-enter-active {
+  max-height: 600px;
+  opacity: 1;
+}
+.mobile-drawer-exit {
+  max-height: 600px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+.mobile-drawer-exit-active {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Full-height modal on mobile */
+@media (max-width: 639px) {
+  .modal-mobile-full {
+    padding: 8px !important;
+  }
+  .modal-mobile-full > div {
+    max-width: 100% !important;
+    margin-top: 0 !important;
+  }
 }

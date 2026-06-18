@@ -76,19 +76,19 @@ export default function SkillsSection() {
           {allItems.map(([group, items], gi) => (
             <div key={group}>
               <CmdRunHeader cmd={`diag --channel=${String.fromCharCode(65+gi)} --group=${group.toLowerCase()}`} out={[`<span class='ok'>[OK]</span> ${items.length} probes attached`]} />
-              <div className="border border-nerv-green/30">
-                <div className="row-rec text-[10px] text-nerv-green tracking-widest bg-nerv-green/5"
+              <div className="table-scroll border border-nerv-green/30">
+                <div className="row-rec text-[10px] text-nerv-green tracking-widest bg-nerv-green/5 min-w-[590px]"
                      style={{ gridTemplateColumns: "70px 1fr 1fr 80px 110px" }}>
                   <span>PROBE</span><span>NAME</span><span>WAVEFORM</span><span>SYNC%</span><span>STATE</span>
                 </div>
                 {items.map((s, i) => {
                   const th = threshold(s.value);
                   return (
-                    <div key={s.name} className="row-rec"
+                    <div key={s.name} className="row-rec min-w-[590px]"
                          style={{ gridTemplateColumns: "70px 1fr 1fr 80px 110px" }}>
                       <span className="text-nerv-orange">SK-{String(i+1).padStart(2, "0")}</span>
                       <span className="text-foreground tracking-widest">{s.name}</span>
-                      <span className="self-center"><SegBar value={s.value} /></span>
+                      <span className="self-center min-w-[180px]"><SegBar value={s.value} /></span>
                       <span className="text-nerv-orange tracking-widest">{s.value.toFixed(1)}%</span>
                       <span className={th.c + " tracking-widest"}>● {th.l}</span>
                     </div>

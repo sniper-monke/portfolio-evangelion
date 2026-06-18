@@ -50,8 +50,8 @@ export default function OperationsSection() {
       <CmdRunHeader cmd="ls -l ./operations/ | grep -v ARCHIVED" />
 
       {/* Table header */}
-      <div className="border border-nerv-cyan/40">
-        <div className="row-rec text-[10px] text-nerv-cyan tracking-widest bg-nerv-cyan/5"
+      <div className="table-scroll border border-nerv-cyan/40">
+        <div className="row-rec text-[10px] text-nerv-cyan tracking-widest bg-nerv-cyan/5 min-w-[790px]"
              style={{ gridTemplateColumns: "70px 80px 1fr 170px 110px 90px 70px" }}>
           <span>OP-ID</span>
           <span>VIS</span>
@@ -68,7 +68,7 @@ export default function OperationsSection() {
             onClick={() => setActive(p)}
             data-testid={`operation-${p.id}`}
             data-cursor="hover"
-            className="row-rec w-full text-left group hover:bg-nerv-cyan/10"
+            className="row-rec w-full text-left group hover:bg-nerv-cyan/10 min-w-[790px]"
             style={{ gridTemplateColumns: "70px 80px 1fr 170px 110px 90px 70px" }}
           >
             <span className="text-nerv-cyan">{p.id}</span>
@@ -143,25 +143,25 @@ TOTAL   12     08        347      18,265`}</pre>
       <div className="mt-2 text-[10px] text-nerv-cyan tracking-widest">// magi&gt; QUERY OK ── 6 ROWS IN SET (0.012s) ── cached at 11:04:55Z</div>
 
       {active && createPortal(
-        <div className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm p-3 overflow-y-auto" style={{ isolation: "isolate" }} onClick={() => setActive(null)} data-testid="operation-modal" role="dialog" aria-modal="true">
-          <div className="max-w-4xl mx-auto term-section nerv mt-8" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm p-2 sm:p-3 overflow-y-auto" style={{ isolation: "isolate" }} onClick={() => setActive(null)} data-testid="operation-modal" role="dialog" aria-modal="true">
+          <div className="max-w-4xl mx-auto term-section nerv mt-2 sm:mt-8" onClick={(e) => e.stopPropagation()}>
             <div className="term-header">
-              <span className="text-nerv-orange">● MISSION FILE :: {active.id} :: {active.classification}</span>
-              <button onClick={() => setActive(null)} data-testid="close-modal" autoFocus className="ml-auto text-nerv-red hover:bg-nerv-red hover:text-background px-2">[X] CLOSE</button>
+              <span className="text-nerv-orange text-[9px] sm:text-[10px] truncate">● MISSION FILE :: {active.id} :: {active.classification}</span>
+              <button onClick={() => setActive(null)} data-testid="close-modal" autoFocus className="ml-auto shrink-0 text-nerv-red hover:bg-nerv-red hover:text-background px-2 py-1 sm:py-0">[X] CLOSE</button>
             </div>
-            <div className="p-3 prompt">
+            <div className="p-2 sm:p-3 prompt">
               <CmdRunHeader cmd={`magi-query --get ${active.id}`} />
-              <div className="display-stretch text-3xl md:text-4xl text-nerv-orange text-glow-orange">{active.name}</div>
-              <div className="grid md:grid-cols-2 gap-3 mt-3">
+              <div className="display-stretch text-2xl sm:text-3xl md:text-4xl text-nerv-orange text-glow-orange">{active.name}</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
                 <img src={active.image} alt="" className="w-full border border-nerv-orange/40" />
                 <div>
                   <div className="text-[10px] text-nerv-orange tracking-widest">// BRIEF</div>
-                  <p className="text-foreground/90">{active.detail}</p>
+                  <p className="text-foreground/90 text-[11px] sm:text-[12px]">{active.detail}</p>
                   <div className="text-[10px] text-nerv-orange tracking-widest mt-2">// STACK</div>
                   <div className="flex flex-wrap gap-1 mt-1">{active.tech.map((t) => <span key={t} className="pill text-nerv-orange">{t}</span>)}</div>
-                  <div className="flex gap-2 mt-3">
-                    <a href={active.github} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background">[G] GITHUB ↗</a>
-                    <a href={active.demo} target="_blank" rel="noreferrer" className="pill text-nerv-orange hover:bg-nerv-orange hover:text-background">[L] LIVE DEMO ↗</a>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <a href={active.github} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background py-1.5">[G] GITHUB ↗</a>
+                    <a href={active.demo} target="_blank" rel="noreferrer" className="pill text-nerv-orange hover:bg-nerv-orange hover:text-background py-1.5">[L] LIVE DEMO ↗</a>
                   </div>
                 </div>
               </div>

@@ -13,7 +13,7 @@ const LINKS = [
   { id: "contact", label: "08 // CONTACT TERMINAL" },
 ];
 
-export default function Navigation({ pro, onTogglePro, sound, onToggleSound, onLogoClick, logoClicks }) {
+export default function Navigation({ sound, onToggleSound, onLogoClick, logoClicks, onTerminalOpen }) {
   const [open, setOpen] = React.useState(false);
 
   const scrollTo = (id) => {
@@ -38,7 +38,7 @@ export default function Navigation({ pro, onTogglePro, sound, onToggleSound, onL
           <img
             src={"/nerv.png"}
             alt="NERV"
-            className={`h-8 w-auto ${pro ? "" : "drop-shadow-[0_0_6px_#FF6B00]"} transition-transform group-hover:rotate-[-3deg]`}
+            className="h-8 w-auto drop-shadow-[0_0_6px_#FF6B00] transition-transform group-hover:rotate-[-3deg]"
           />
           <div className="leading-tight">
             <div className="text-[10px] tracking-widest text-nerv-orange text-glow-orange font-stamp">NERV ARCHIVE</div>
@@ -70,16 +70,12 @@ export default function Navigation({ pro, onTogglePro, sound, onToggleSound, onL
             SND: {sound ? "ON" : "OFF"}
           </button>
           <button
-            onClick={onTogglePro}
-            data-testid="mode-toggle"
+            onClick={onTerminalOpen}
+            data-testid="terminal-toggle"
             data-cursor="hover"
-            className={`text-[10px] border px-2 py-1 tracking-widest transition-colors ${
-              pro
-                ? "border-foreground text-foreground hover:bg-foreground hover:text-background"
-                : "border-nerv-green/70 text-nerv-green hover:bg-nerv-green hover:text-background"
-            }`}
+            className="border-2 border-nerv-green text-nerv-green px-3 py-1.5 text-[11px] tracking-widest font-bold hover:bg-nerv-green hover:text-black transition-colors"
           >
-            MODE: {pro ? "PROFESSIONAL" : "NERV"}
+            ~ TERMINAL
           </button>
           <a
             href={PILOT.resumeUrl}
@@ -100,27 +96,37 @@ export default function Navigation({ pro, onTogglePro, sound, onToggleSound, onL
         </div>
       </div>
 
-      {open && (
-        <div className="lg:hidden border-t border-nerv-orange/40 bg-background">
+      <div
+        className={`lg:hidden overflow-hidden border-t border-nerv-orange/40 bg-background transition-all duration-300 ease-in-out ${
+          open ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="border-b border-nerv-orange/20">
           {LINKS.map((l) => (
             <button
               key={l.id}
               onClick={() => scrollTo(l.id)}
               data-testid={`nav-mobile-${l.id}`}
-              className="block w-full text-left px-4 py-2 text-xs tracking-widest border-b border-nerv-orange/20 hover:bg-nerv-orange/10"
+              className="block w-full text-left px-4 py-3 text-xs tracking-widest border-b border-nerv-orange/10 hover:bg-nerv-orange/10 touch-target"
             >
               {l.label}
             </button>
           ))}
-          <a
-            href={PILOT.resumeUrl}
-            download
-            className="block px-4 py-2 text-xs tracking-widest border-b border-nerv-orange/20 text-nerv-red"
-          >
-            ↓ DOWNLOAD PERSONNEL REPORT
-          </a>
         </div>
-      )}
+        <a
+          href={PILOT.resumeUrl}
+          download
+          className="block w-full text-left px-4 py-3 text-xs tracking-widest text-nerv-red hover:bg-nerv-red/10 touch-target"
+        >
+          ↓ DOWNLOAD PERSONNEL REPORT
+        </a>
+        <button
+          onClick={() => { setOpen(false); onTerminalOpen?.(); }}
+          className="block w-full text-left px-4 py-3 text-xs tracking-widest text-nerv-green hover:bg-nerv-green/10 touch-target border-t border-nerv-orange/20"
+        >
+          ~ OPEN TERMINAL
+        </button>
+      </div>
     </header>
   );
 }

@@ -82,12 +82,12 @@ export default function PersonnelSection() {
           </div>
 
           <CmdRunHeader cmd="cat ./entries/002-education.tsv | column -t" out={["<span class='ok'>[OK]</span> 3 records"]} />
-          <div className="border border-nerv-orange/30">
-            <div className="row-rec text-[10px] text-nerv-orange tracking-widest bg-nerv-orange/5" style={{ gridTemplateColumns: "60px 1fr 220px 110px" }}>
+          <div className="table-scroll border border-nerv-orange/30">
+            <div className="row-rec text-[10px] text-nerv-orange tracking-widest bg-nerv-orange/5 min-w-[640px]" style={{ gridTemplateColumns: "60px 1fr 220px 110px" }}>
               <span>IDX</span><span>INSTITUTION</span><span>PROGRAM</span><span>YEARS</span>
             </div>
             {PERSONNEL_FILE.education.map((e, i) => (
-              <div key={i} className="row-rec" style={{ gridTemplateColumns: "60px 1fr 220px 110px" }}>
+              <div key={i} className="row-rec min-w-[640px]" style={{ gridTemplateColumns: "60px 1fr 220px 110px" }}>
                 <span className="text-nerv-orange">EDU-{String(i+1).padStart(3,"0")}</span>
                 <span>
                   <span className="text-foreground">{e.institution}</span><br/>

@@ -49,12 +49,12 @@ export function GallerySection() {
       <div className="mt-2 text-[10px] text-nerv-orange tracking-widest">// {ART_GALLERY.length} files ── chksum verified ── exif scrubbed</div>
 
       {active && (
-        <div className="fixed inset-0 z-[200] bg-background/95 p-3 grid place-items-center" onClick={() => setActive(null)}>
-          <div className="max-w-4xl w-full border-2 border-nerv-orange p-2 bg-background" onClick={(e) => e.stopPropagation()}>
-            <img src={active.url} alt={active.title} className="w-full max-h-[80vh] object-contain border border-nerv-orange/40" />
-            <div className="flex justify-between mt-1 text-[10px] tracking-widest text-nerv-orange px-1">
-              <span>FILE {active.id} :: {active.title}</span>
-              <button onClick={() => setActive(null)} className="text-nerv-red">[X] CLOSE</button>
+        <div className="fixed inset-0 z-[200] bg-background/95 p-1 sm:p-3 grid place-items-center" onClick={() => setActive(null)}>
+          <div className="max-w-4xl w-full border-2 border-nerv-orange p-1 sm:p-2 bg-background mx-1 sm:mx-0" onClick={(e) => e.stopPropagation()}>
+            <img src={active.url} alt={active.title} className="w-full max-h-[75vh] sm:max-h-[80vh] object-contain border border-nerv-orange/40" />
+            <div className="flex justify-between items-center mt-1 text-[9px] sm:text-[10px] tracking-widest text-nerv-orange px-1">
+              <span className="truncate">FILE {active.id} :: {active.title}</span>
+              <button onClick={() => setActive(null)} className="text-nerv-red shrink-0 px-2 py-1">[X] CLOSE</button>
             </div>
           </div>
         </div>
@@ -125,36 +125,36 @@ export function ContactSection() {
           </div>
         </div>
 
-        <form onSubmit={submit} className="col-span-12 md:col-span-6 space-y-2">
-          <CmdRunHeader cmd="compose --interactive" />
-          <label className="block">
-            <span className="text-[10px] text-nerv-orange tracking-widest">[01] SENDER ID ▸</span>
-            <input data-testid="contact-name" value={name} onChange={(e) => setName(e.target.value)} required placeholder="ENTER FULL DESIGNATION"
-              className="w-full bg-black border border-nerv-orange/40 focus:border-nerv-orange p-2 font-mono text-sm outline-none text-nerv-orange placeholder:text-foreground/30" />
-          </label>
-          <label className="block">
-            <span className="text-[10px] text-nerv-orange tracking-widest">[02] RETURN FREQUENCY ▸</span>
-            <input data-testid="contact-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@frequency.net"
-              className="w-full bg-black border border-nerv-orange/40 focus:border-nerv-orange p-2 font-mono text-sm outline-none text-nerv-orange placeholder:text-foreground/30" />
-          </label>
-          <label className="block">
-            <span className="text-[10px] text-nerv-orange tracking-widest">[03] MESSAGE PAYLOAD ▸</span>
-            <textarea data-testid="contact-message" value={message} onChange={(e) => setMessage(e.target.value)} required placeholder="> ENTER TRANSMISSION..."
-              className="w-full bg-black border border-nerv-orange/40 focus:border-nerv-orange p-2 font-mono text-sm outline-none text-nerv-orange placeholder:text-foreground/30 min-h-[140px]" />
-          </label>
-          <button type="submit" disabled={sending} data-testid="contact-submit"
-                  className="w-full pill border-nerv-red text-nerv-red hover:bg-nerv-red hover:text-background disabled:opacity-50 py-2 text-xs">
-            {sending ? "▶ TRANSMITTING..." : "▲ TRANSMIT PACKET"}
-          </button>
-        </form>
+          <form onSubmit={submit} className="col-span-12 md:col-span-6 space-y-2">
+            <CmdRunHeader cmd="compose --interactive" />
+            <label className="block">
+              <span className="text-[10px] text-nerv-orange tracking-widest">[01] SENDER ID ▸</span>
+              <input data-testid="contact-name" value={name} onChange={(e) => setName(e.target.value)} required placeholder="ENTER FULL DESIGNATION"
+                className="w-full bg-black border border-nerv-orange/40 focus:border-nerv-orange p-2.5 sm:p-2 font-mono text-sm outline-none text-nerv-orange placeholder:text-foreground/30" />
+            </label>
+            <label className="block">
+              <span className="text-[10px] text-nerv-orange tracking-widest">[02] RETURN FREQUENCY ▸</span>
+              <input data-testid="contact-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@frequency.net"
+                className="w-full bg-black border border-nerv-orange/40 focus:border-nerv-orange p-2.5 sm:p-2 font-mono text-sm outline-none text-nerv-orange placeholder:text-foreground/30" />
+            </label>
+            <label className="block">
+              <span className="text-[10px] text-nerv-orange tracking-widest">[03] MESSAGE PAYLOAD ▸</span>
+              <textarea data-testid="contact-message" value={message} onChange={(e) => setMessage(e.target.value)} required placeholder="> ENTER TRANSMISSION..."
+                className="w-full bg-black border border-nerv-orange/40 focus:border-nerv-orange p-2.5 sm:p-2 font-mono text-sm outline-none text-nerv-orange placeholder:text-foreground/30 min-h-[140px]" />
+            </label>
+            <button type="submit" disabled={sending} data-testid="contact-submit"
+                    className="w-full pill border-nerv-red text-nerv-red hover:bg-nerv-red hover:text-background disabled:opacity-50 py-3 sm:py-2 text-xs">
+              {sending ? "▶ TRANSMITTING..." : "▲ TRANSMIT PACKET"}
+            </button>
+          </form>
 
         <div className="col-span-12">
           <CmdRunHeader cmd="ls ./wires/" />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 text-[10px] tracking-widest">
-            <a href={PILOT.socials.github} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background">▸ GITHUB</a>
-            <a href={PILOT.socials.linkedin} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background">▸ LINKEDIN</a>
-            <a href={PILOT.socials.twitter} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background">▸ TWITTER</a>
-            <a href={`mailto:${PILOT.socials.email}`} className="pill text-nerv-orange border-nerv-orange hover:bg-nerv-orange hover:text-background">▸ {PILOT.socials.email}</a>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 text-[10px] tracking-widest">
+            <a href={PILOT.socials.github} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background py-2 sm:py-0 text-center">▸ GITHUB</a>
+            <a href={PILOT.socials.linkedin} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background py-2 sm:py-0 text-center">▸ LINKEDIN</a>
+            <a href={PILOT.socials.twitter} target="_blank" rel="noreferrer" className="pill text-foreground hover:bg-foreground hover:text-background py-2 sm:py-0 text-center">▸ TWITTER</a>
+            <a href={`mailto:${PILOT.socials.email}`} className="pill text-nerv-orange border-nerv-orange hover:bg-nerv-orange hover:text-background py-2 sm:py-0 text-center truncate">▸ {PILOT.socials.email}</a>
           </div>
         </div>
       </div>

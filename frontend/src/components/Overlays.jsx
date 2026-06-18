@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export function ThirdImpactOverlay({ onClose }) {
   const [phase, setPhase] = useState(0);
@@ -81,9 +81,18 @@ export function EndingScreen({ onClose }) {
 }
 
 export function SeeleOverlay({ onClose }) {
+  const audioRef = useRef(null);
+  useEffect(() => {
+    const audio = new Audio("/sounds/decisive-battle.mp3");
+    audio.volume = 0.2;
+    audio.loop = true;
+    audio.play().catch(() => {});
+    audioRef.current = audio;
+    return () => { audio.pause(); audio.currentTime = 0; };
+  }, []);
   return (
     <div className="fixed inset-0 z-[300] bg-black grid place-items-center" data-testid="seele-overlay">
-      <button onClick={onClose} className="absolute top-3 right-3 text-nerv-orange border border-nerv-orange/60 px-2 py-1 text-xs tracking-widest">CLOSE</button>
+      <button onClick={() => { onClose(); }} className="absolute top-3 right-3 text-nerv-orange border border-nerv-orange/60 px-2 py-1 text-xs tracking-widest">CLOSE</button>
       <div className="text-center">
         <div className="text-[10px] tracking-[0.8em] text-foreground/60 mb-6">SOUND ONLY</div>
         <div className="flex items-end justify-center gap-2 mb-8">
@@ -135,10 +144,71 @@ export function MagiLoginOverlay({ onClose }) {
 }
 
 export function CongratulationsOverlay({ onClose }) {
-  useEffect(() => { const t = setTimeout(onClose, 5200); return () => clearTimeout(t); }, [onClose]);
+  const playerRef = useRef(null);
+
+  useEffect(() => {
+    let player = null;
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    let first = document.getElementsByTagName("script")[0];
+    first.parentNode.insertBefore(tag, first);
+
+    const onReady = () => {
+      player = new YT.Player("yt-player-congrats", {
+        height: "0",
+        width: "0",
+        videoId: "oyFQVZ2h0V8",
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          iv_load_policy: 3,
+          modestbranding: 1,
+          rel: 0,
+        },
+        events: {
+          onReady: (e) => {
+            e.target.setVolume(0);
+            e.target.playVideo();
+            const steps = 50;
+            let i = 0;
+            const fade = setInterval(() => {
+              i++;
+              e.target.setVolume(Math.min(100, Math.round((i / steps) * 100)));
+              if (i >= steps) clearInterval(fade);
+            }, 100);
+          },
+          onStateChange: (e) => {
+            if (e.data === YT.PlayerState.ENDED) {
+              e.target.stopVideo();
+            }
+          },
+        },
+      });
+      playerRef.current = player;
+    };
+
+    window.YT ? onReady() : (window.onYouTubeIframeAPIReady = onReady);
+
+    return () => {
+      if (player && player.destroy) player.destroy();
+      playerRef.current = null;
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-[300] bg-black grid place-items-center" data-testid="congrats-overlay">
-      <div className="text-center px-6">
+    <div className="fixed inset-0 z-[300] bg-black grid place-items-center overflow-hidden" data-testid="congrats-overlay">
+      <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-8">
+        <img
+          src="/ayanami.png"
+          alt=""
+          className="max-w-full max-h-full w-auto h-auto object-contain opacity-60"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60 pointer-events-none" />
+      <div id="yt-player-congrats" className="absolute w-0 h-0 overflow-hidden" />
+      <div className="relative text-center px-6 z-10">
         <div className="display-stretch text-3xl md:text-5xl text-nerv-orange text-glow-orange">おめでとう。</div>
         <div className="font-stamp tracking-[0.5em] text-foreground/80 mt-3">CONGRATULATIONS.</div>
         <div className="font-mono text-[11px] text-foreground/50 mt-4">- to all the children -</div>

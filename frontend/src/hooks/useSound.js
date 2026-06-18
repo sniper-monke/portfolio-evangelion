@@ -1,50 +1,110 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-// Synthesizes simple CC0-style terminal SFX using WebAudio (no external assets needed)
+const SOUND_MAP = {
+  beep: "/sounds/power-disconnect.mp3",
+  click: "/sounds/laser.mp3",
+  warn: "/sounds/at-field.mp3",
+  alert: "/sounds/laser-explosion.mp3",
+  boot: "/sounds/decisive-battle.mp3",
+  theme: "/sounds/evangelion-theme.mp3",
+  congrats: "/sounds/komm-susser-tod.mp3",
+};
+
+let ctxRef = null;
+const bufferCache = {};
+let loadQueue = null;
+
+function getCtx() {
+  if (!ctxRef) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    ctxRef = new AC();
+  }
+  if (ctxRef.state === "suspended") ctxRef.resume();
+  return ctxRef;
+}
+
+async function ensureLoaded() {
+  if (loadQueue) return loadQueue;
+  loadQueue = (async () => {
+    const ac = getCtx();
+    if (!ac) return;
+    const entries = Object.entries(SOUND_MAP);
+    const results = await Promise.allSettled(
+      entries.map(async ([key, url]) => {
+        try {
+          const resp = await fetch(url);
+          const arrayBuf = await resp.arrayBuffer();
+          const audioBuf = await ac.decodeAudioData(arrayBuf);
+          bufferCache[key] = audioBuf;
+        } catch {}
+      })
+    );
+  })();
+  await loadQueue;
+}
+
+function playBuf(key, vol = 0.5, loop = false) {
+  const ac = getCtx();
+  if (!ac) return false;
+  const buf = bufferCache[key];
+  if (!buf) return false;
+  try {
+    const src = ac.createBufferSource();
+    const gain = ac.createGain();
+    src.buffer = buf;
+    src.loop = loop;
+    gain.gain.value = vol;
+    src.connect(gain).connect(ac.destination);
+    src.start(0);
+    return { stop: () => { try { src.stop(); } catch {} } };
+  } catch {
+    return false;
+  }
+}
+
 export default function useSound(enabled) {
-  const ctxRef = useRef(null);
+  const enabledRef = useRef(enabled);
+  enabledRef.current = enabled;
 
-  const ctx = () => {
-    if (!ctxRef.current) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return null;
-      ctxRef.current = new AC();
-    }
-    if (ctxRef.current.state === "suspended") ctxRef.current.resume();
-    return ctxRef.current;
-  };
+  useEffect(() => {
+    if (enabled) ensureLoaded();
+  }, [enabled]);
 
-  const tone = useCallback(
-    (freq = 880, dur = 0.06, type = "square", vol = 0.05) => {
-      if (!enabled) return;
-      const ac = ctx();
-      if (!ac) return;
-      const o = ac.createOscillator();
-      const g = ac.createGain();
-      o.type = type;
-      o.frequency.value = freq;
-      g.gain.value = vol;
-      o.connect(g).connect(ac.destination);
-      const now = ac.currentTime;
-      g.gain.setValueAtTime(vol, now);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-      o.start(now);
-      o.stop(now + dur + 0.02);
-    },
-    [enabled]
-  );
+  const beep = useCallback(() => {
+    if (!enabledRef.current) return;
+    playBuf("beep", 0.3);
+  }, []);
 
-  const beep = useCallback(() => tone(1200, 0.04, "square", 0.04), [tone]);
-  const click = useCallback(() => tone(640, 0.03, "square", 0.05), [tone]);
+  const click = useCallback(() => {
+    if (!enabledRef.current) return;
+    playBuf("click", 0.25);
+  }, []);
+
   const warn = useCallback(() => {
-    tone(220, 0.18, "sawtooth", 0.06);
-    setTimeout(() => tone(180, 0.22, "sawtooth", 0.06), 180);
-  }, [tone]);
-  const boot = useCallback(() => {
-    tone(440, 0.08, "square", 0.04);
-    setTimeout(() => tone(880, 0.08, "square", 0.04), 90);
-    setTimeout(() => tone(1320, 0.12, "square", 0.04), 180);
-  }, [tone]);
+    if (!enabledRef.current) return;
+    playBuf("warn", 0.35);
+  }, []);
 
-  return { tone, beep, click, warn, boot };
+  const alert = useCallback(() => {
+    if (!enabledRef.current) return;
+    playBuf("alert", 0.35);
+  }, []);
+
+  const boot = useCallback(() => {
+    if (!enabledRef.current) return;
+    playBuf("boot", 0.25);
+  }, []);
+
+  const theme = useCallback(() => {
+    if (!enabledRef.current) return;
+    playBuf("theme", 0.2);
+  }, []);
+
+  const congrats = useCallback(() => {
+    if (!enabledRef.current) return;
+    playBuf("congrats", 0.3);
+  }, []);
+
+  return { beep, click, warn, alert, boot, theme, congrats };
 }

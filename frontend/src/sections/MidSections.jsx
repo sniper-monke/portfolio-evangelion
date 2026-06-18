@@ -34,13 +34,13 @@ export function EconomicsSection() {
     >
       <CmdRunHeader cmd="ls -lh ./papers/ | sort -k 4" out={["<span class='ok'>[OK]</span> sorted by date desc"]} />
 
-      <div className="border border-nerv-red/40">
-        <div className="row-rec text-[10px] text-nerv-red tracking-widest bg-nerv-red/5"
+      <div className="table-scroll border border-nerv-red/40">
+        <div className="row-rec text-[10px] text-nerv-red tracking-widest bg-nerv-red/5 min-w-[670px]"
              style={{ gridTemplateColumns: "80px 1fr 1fr 130px 90px 80px" }}>
           <span>REF</span><span>TITLE</span><span>BRIEF</span><span>TAGS</span><span>CITES</span><span>STATE</span>
         </div>
         {ECONOMICS_ESSAYS.map((e, i) => (
-          <div key={e.title} className="row-rec"
+          <div key={e.title} className="row-rec min-w-[670px]"
                style={{ gridTemplateColumns: "80px 1fr 1fr 130px 90px 80px" }}>
             <span className="text-nerv-red">0x{(0x4A+i).toString(16).toUpperCase()}</span>
             <span>
@@ -132,13 +132,13 @@ export function AchievementsSection({ unlocked }) {
     >
       <CmdRunHeader cmd="cat ./records/public.log" out={[`<span class='ok'>[OK]</span> ${ACHIEVEMENTS.length} entries`]} />
 
-      <div className="border border-nerv-orange/30">
-        <div className="row-rec text-[10px] text-nerv-orange tracking-widest bg-nerv-orange/5"
+      <div className="table-scroll border border-nerv-orange/30">
+        <div className="row-rec text-[10px] text-nerv-orange tracking-widest bg-nerv-orange/5 min-w-[440px]"
              style={{ gridTemplateColumns: "60px 110px 1fr 110px" }}>
           <span>IDX</span><span>REF</span><span>RECORD</span><span>SIGNATURE</span>
         </div>
         {ACHIEVEMENTS.map((a, i) => (
-          <div key={a.code} className="row-rec"
+          <div key={a.code} className="row-rec min-w-[440px]"
                style={{ gridTemplateColumns: "60px 110px 1fr 110px" }}>
             <span className="text-nerv-orange">{String(i+1).padStart(3, "0")}</span>
             <span className="text-foreground/80">{a.code} / {a.year}</span>
@@ -153,9 +153,9 @@ export function AchievementsSection({ unlocked }) {
         {["KONAMI_UNLOCK","THIRD_IMPACT","TERMINAL_OPENED","MAGI_LOGIN","INSTRUMENTALITY","DOG_PAGE","ANGEL_SIGHTED","SECRET_EVA"].map((id, i) => {
           const on = unlocked.includes(id);
           return (
-            <div key={id} className={`border px-2 py-1 text-[10px] tracking-widest ${on ? "border-nerv-green/60 text-nerv-green bg-nerv-green/5" : "border-foreground/20 text-foreground/40"}`}>
-              <span className="led on" style={!on ? { background: "#222", color: "#222", boxShadow: "none" } : {}} />
-              SEC-{String(i+1).padStart(2, "0")} :: {id}
+            <div key={id} className={`border px-2 py-1.5 sm:py-1 text-[9px] sm:text-[10px] tracking-widest ${on ? "border-nerv-green/60 text-nerv-green bg-nerv-green/5" : "border-foreground/20 text-foreground/40"}`}>
+              <span className="led on align-middle" style={!on ? { background: "#222", color: "#222", boxShadow: "none" } : {}} />
+              <span className="align-middle">SEC-{String(i+1).padStart(2, "0")} :: {id}</span>
             </div>
           );
         })}
@@ -186,17 +186,17 @@ export function StatusSection() {
         { k: "JITTER",  v: "1.4ms", c: "text-nerv-green" },
       ]}
     >
-      <div className="border border-nerv-green/30">
-        <div className="row-rec text-[10px] text-nerv-green tracking-widest bg-nerv-green/5"
+      <div className="table-scroll border border-nerv-green/30">
+        <div className="row-rec text-[10px] text-nerv-green tracking-widest bg-nerv-green/5 min-w-[480px]"
              style={{ gridTemplateColumns: "110px 1fr 180px 80px" }}>
           <span>CHANNEL</span><span>VALUE</span><span>WAVEFORM</span><span>STATE</span>
         </div>
         {CURRENT_STATUS.map((s, i) => (
-          <div key={s.label} className="row-rec"
+          <div key={s.label} className="row-rec min-w-[480px]"
                style={{ gridTemplateColumns: "110px 1fr 180px 80px" }}>
             <span className="text-nerv-orange tracking-widest">{s.label}</span>
             <span className="text-foreground/95">&gt; {s.value}</span>
-            <span className="self-center flex gap-px">
+            <span className="self-center flex gap-px min-w-[160px]">
               {Array.from({ length: 24 }).map((_, k) => (
                 <span key={k} className={`h-2 flex-1 ${k < (8 + i*3) ? "bg-nerv-green" : "bg-nerv-green/10"}`} />
               ))}

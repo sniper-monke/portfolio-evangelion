@@ -21,19 +21,17 @@ export default function TerminalScreen({
     const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
-  const bootKey = bootLines.join("\0");
+  const [bootKey] = useState(() => bootLines.join("\0"));
   useEffect(() => {
     if (!bootLines.length) return;
     setStreamed(0);
-    const id = setInterval(() => {
+    let id = setInterval(() => {
       setStreamed((s) => {
-        if (s >= bootLines.length) return s;
-        const next = s + 1;
-        if (next >= bootLines.length) clearInterval(id);
-        return next;
+        if (s >= bootLines.length - 1) { clearInterval(id); return bootLines.length; }
+        return s + 1;
       });
     }, 120);
-    return () => clearInterval(id);
+    return () => { clearInterval(id); };
   }, [bootKey, bootLines.length]);
 
   const ts = now.toISOString().replace("T", " ").slice(0, 19);
@@ -47,17 +45,17 @@ export default function TerminalScreen({
   return (
     <section id={id} data-testid={testid} className={`term-section ${variant} ${className}`}>
       {/* Top OS chrome */}
-      <div className="term-header">
+      <div className="term-header flex-wrap gap-y-0.5">
         <span className={accentColor}>● NERV-OS v2.27</span>
-        <span className="opacity-50">::</span>
-        <span className={accentColor}>{variant.toUpperCase()}/SHELL</span>
-        <span className="opacity-50">|</span>
-        <span className="opacity-80">{ts}Z</span>
-        <span className="opacity-50">|</span>
-        <span className="text-nerv-green">● UPLINK</span>
-        <span className="opacity-50">|</span>
-        <span className="opacity-80">PID {String(Math.floor(Math.random()*9000)+1000)}</span>
-        <span className="ml-auto opacity-60">[ACCESS A-1 // EYES ONLY]</span>
+        <span className="opacity-50 hidden sm:inline">::</span>
+        <span className={`${accentColor} hidden sm:inline`}>{variant.toUpperCase()}/SHELL</span>
+        <span className="opacity-50 hidden sm:inline">|</span>
+        <span className="opacity-80 text-[9px] sm:text-[10px]">{ts}Z</span>
+        <span className="opacity-50 hidden sm:inline">|</span>
+        <span className="text-nerv-green hidden sm:inline">● UPLINK</span>
+        <span className="opacity-50 hidden md:inline">|</span>
+        <span className="opacity-80 hidden md:inline">PID {String(Math.floor(Math.random()*9000)+1000)}</span>
+        <span className="ml-auto opacity-60 text-[9px] sm:text-[10px] hidden sm:inline">[ACCESS A-1 // EYES ONLY]</span>
       </div>
 
       {/* Command prompt */}
@@ -87,11 +85,11 @@ export default function TerminalScreen({
 
       {/* ASCII banner + JP marker */}
       {(ascii || titleJp) && (
-        <div className="px-3 py-2 grid grid-cols-12 items-end gap-2 border-y border-current/20">
-          {ascii && <pre className="ascii-box col-span-12 lg:col-span-8">{ascii}</pre>}
+        <div className="px-2 sm:px-3 py-1.5 sm:py-2 grid grid-cols-12 items-end gap-1 sm:gap-2 border-y border-current/20">
+          {ascii && <pre className="ascii-box col-span-12 lg:col-span-8 overflow-x-auto">{ascii}</pre>}
           {titleJp && (
-            <div className="col-span-12 lg:col-span-4 text-right">
-              <div className="font-jp text-2xl md:text-4xl text-foreground/30 tracking-[0.2em]">{titleJp}</div>
+            <div className="col-span-12 lg:col-span-4 text-left lg:text-right">
+              <div className="font-jp text-lg sm:text-2xl md:text-4xl text-foreground/30 tracking-[0.2em]">{titleJp}</div>
             </div>
           )}
         </div>
@@ -99,18 +97,18 @@ export default function TerminalScreen({
 
       {/* meta row */}
       {meta.length > 0 && (
-        <div className="px-3 py-1 grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-0.5 border-b border-current/20 text-[10px] tracking-widest">
+        <div className="px-2 sm:px-3 py-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 sm:gap-x-3 gap-y-0.5 border-b border-current/20 text-[9px] sm:text-[10px] tracking-widest">
           {meta.map((m, i) => (
-            <div key={i} className="flex gap-1">
-              <span className="opacity-50">{m.k}:</span>
-              <span className={m.c || ""}>{m.v}</span>
+            <div key={i} className="flex gap-1 truncate">
+              <span className="opacity-50 shrink-0">{m.k}:</span>
+              <span className={`${m.c || ""} truncate`}>{m.v}</span>
             </div>
           ))}
         </div>
       )}
 
       {/* Body */}
-      <div className="px-3 py-3 prompt">
+      <div className="px-2 sm:px-3 py-2 sm:py-3 prompt">
         {children}
       </div>
 
