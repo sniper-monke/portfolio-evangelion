@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef } from "react";
 
 const SOUND_MAP = {
-  beep: "/sounds/power-disconnect.mp3",
-  click: "/sounds/laser.mp3",
-  warn: "/sounds/at-field.mp3",
-  alert: "/sounds/laser-explosion.mp3",
-  boot: "/sounds/decisive-battle.mp3",
-  theme: "/sounds/evangelion-theme.mp3",
-  congrats: "/sounds/komm-susser-tod.mp3",
+  beep: "sounds/power-disconnect.mp3",
+  click: "sounds/laser.mp3",
+  warn: "sounds/at-field.mp3",
+  alert: "sounds/laser-explosion.mp3",
+  boot: "sounds/decisive-battle.mp3",
+  theme: "sounds/evangelion-theme.mp3",
+  congrats: "sounds/komm-susser-tod.mp3",
 };
 
 let ctxRef = null;

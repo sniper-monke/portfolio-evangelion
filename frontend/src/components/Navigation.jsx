@@ -36,7 +36,7 @@ export default function Navigation({ sound, onToggleSound, onLogoClick, logoClic
           title={`NERV // ${logoClicks}/10`}
         >
           <img
-            src={"/nerv.png"}
+            src={"nerv.png"}
             alt="NERV"
             className="h-8 w-auto drop-shadow-[0_0_6px_#FF6B00] transition-transform group-hover:rotate-[-3deg]"
           />

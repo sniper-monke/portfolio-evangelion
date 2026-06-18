@@ -54,6 +54,11 @@ export default function App() {
     setUnlocked((arr) => (arr.includes(key) ? arr : [...arr, key]));
   }, [setUnlocked]);
 
+  // Dismiss keyboard when overlays open
+  useEffect(() => {
+    if (overlay || hiddenPage) document.activeElement?.blur();
+  }, [overlay, hiddenPage]);
+
   // Keyboard listeners (terminal toggle, Konami, exit)
   useEffect(() => {
     const onKey = (e) => {

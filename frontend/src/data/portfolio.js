@@ -15,7 +15,7 @@ export const PILOT = {
     email: "aarav.krishna78@gmail.com",
     twitter: "https://twitter.com",
   },
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "resume.pdf",
 };
 
 export const PERSONNEL_FILE = {

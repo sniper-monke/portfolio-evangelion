@@ -238,12 +238,12 @@ export default function SecretTerminal({ open, onClose, onUnlock, onAction }) {
 
   if (!open) return null;
   return (
-    <div className="fixed inset-x-2 bottom-12 md:inset-x-10 md:bottom-16 z-[150] border-2 border-nerv-green bg-black text-nerv-green font-mono text-xs md:text-sm text-glow-green max-h-[55vh] flex flex-col" data-testid="secret-terminal">
-      <div className="flex items-center justify-between border-b border-nerv-green/40 px-2 py-1 text-[10px] tracking-widest">
-        <span>NERV // HIDDEN TERMINAL // PRESS ~ TO TOGGLE</span>
-        <button onClick={onClose} className="text-nerv-orange hover:text-nerv-red">CLOSE</button>
+    <div className="fixed inset-x-0 bottom-0 sm:inset-x-2 sm:bottom-12 md:inset-x-10 md:bottom-16 z-[150] border-2 border-nerv-green bg-black text-nerv-green font-mono text-xs md:text-sm text-glow-green h-full sm:h-auto sm:max-h-[70vh] flex flex-col" data-testid="secret-terminal">
+      <div className="flex items-center justify-between border-b border-nerv-green/40 px-3 py-2 sm:px-2 sm:py-1 text-[10px] tracking-widest">
+        <span className="truncate">NERV // HIDDEN TERMINAL</span>
+        <button onClick={onClose} className="text-nerv-orange hover:text-nerv-red px-3 py-1.5 sm:px-2 sm:py-0">CLOSE</button>
       </div>
-      <div className="flex-1 overflow-hidden flex">
+      <div className="flex-1 overflow-hidden flex min-h-0">
         <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
           {history.map((l, i) => (
             <div key={i} className="whitespace-pre-wrap">{l}</div>
@@ -267,15 +267,15 @@ export default function SecretTerminal({ open, onClose, onUnlock, onAction }) {
           }
           setInput("");
         }}
-        className="border-t border-nerv-green/40 flex items-center px-2 py-1 gap-1"
+        className="border-t border-nerv-green/40 flex items-center px-3 py-2 sm:px-2 sm:py-1 gap-1"
       >
-        <span className="text-nerv-orange">{dialogueStep >= 0 ? ">" : "PILOT-01:~$"}</span>
+        <span className="text-nerv-orange shrink-0">{dialogueStep >= 0 ? ">" : "PILOT-01:~$"}</span>
         <input
           ref={inputRef}
           data-testid="terminal-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 bg-transparent outline-none text-nerv-green"
+          className="flex-1 bg-transparent outline-none text-nerv-green min-w-0"
           autoComplete="off"
           spellCheck="false"
         />
