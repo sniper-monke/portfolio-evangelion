@@ -396,48 +396,6 @@ html.inst-chaos #lilith-footer .lf-img-wrap {
   #lilith-footer .lf-caption .jp { font-size: 9px; letter-spacing: 0.4em; }
   #lilith-footer .lf-sig { font-size: 8px; padding: 4px 12px 14px; letter-spacing: 0.18em; gap: 8px; flex-wrap: wrap; justify-content: center; text-align: center; }
 
-  /* HUD shrinks */
-  #inst-hud { font-size: 9px !important; padding: 6px 10px !important; }
-  #inst-hud .ih-bar { width: 90px !important; }
-  #inst-hud .ih-pattern { display: none; }
 }
 
-/* ============================================================
-   NERV HUD — top-left sync ratio + pattern status
-   ============================================================ */
-#inst-hud {
-  position: fixed; top: 10px; left: 10px;
-  z-index: 60; pointer-events: none;
-  display: flex; gap: 10px; align-items: center;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 10px; letter-spacing: 0.18em;
-  color: hsl(22 100% 55%);
-  padding: 8px 12px;
-  background: linear-gradient(135deg, hsl(0 0% 4% / 0.55), hsl(0 0% 0% / 0.25));
-  border: 1px solid hsl(22 100% 50% / 0.35);
-  text-shadow: 0 0 6px currentColor;
-  backdrop-filter: blur(2px);
-  text-transform: uppercase;
-  opacity: 0; transition: opacity .8s ease;
-}
-#inst-hud.on { opacity: 0.92; }
-#inst-hud .ih-bar {
-  display: inline-block; width: 110px; height: 6px;
-  background: hsl(0 0% 100% / 0.08);
-  border: 1px solid hsl(22 100% 50% / 0.4);
-  position: relative; overflow: hidden;
-}
-#inst-hud .ih-bar i {
-  display: block; height: 100%;
-  background: linear-gradient(90deg, hsl(160 100% 45%), hsl(60 100% 55%), hsl(0 100% 55%));
-  width: var(--syn, 0%); transition: width .25s linear;
-  box-shadow: 0 0 8px currentColor;
-}
-#inst-hud .ih-pattern { color: hsl(220 100% 65%); }
-#inst-hud.p-orange .ih-pattern { color: hsl(30 100% 55%); }
-#inst-hud.p-red .ih-pattern { color: hsl(0 100% 55%); animation: inst-hud-blink .6s steps(2) infinite; }
-@keyframes inst-hud-blink { 50% { opacity: 0.3; } }
 
-@media (prefers-reduced-motion: reduce) {
-  #inst-hud { display: none; }
-}
