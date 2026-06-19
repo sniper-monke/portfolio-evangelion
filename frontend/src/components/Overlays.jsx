@@ -147,65 +147,39 @@ export function MagiLoginOverlay({ onClose }) {
 }
 
 export function CongratulationsOverlay({ onClose }) {
-  const playerRef = useRef(null);
+  const audioRef = useRef(null);
   const fadeRef = useRef(null);
   const aliveRef = useRef(true);
 
   useEffect(() => {
     aliveRef.current = true;
-    let player = null;
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    let first = document.getElementsByTagName("script")[0];
-    first.parentNode.insertBefore(tag, first);
+    const audio = new Audio("sounds/komm-susser-tod.webm");
+    audio.volume = 0;
+    audio.loop = true;
+    audioRef.current = audio;
 
-    const onReady = () => {
-      player = new YT.Player("yt-player-congrats", {
-        height: "0",
-        width: "0",
-        videoId: "oyFQVZ2h0V8",
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          rel: 0,
-        },
-        events: {
-          onReady: (e) => {
-            try { e.target.setVolume(0); } catch {}
-            try { e.target.playVideo(); } catch {}
-            const steps = 50;
-            let i = 0;
-            const fade = setInterval(() => {
-              if (!aliveRef.current) { clearInterval(fade); return; }
-              i++;
-              try { e.target.setVolume(Math.min(100, Math.round((i / steps) * 100))); } catch {}
-              if (i >= steps) clearInterval(fade);
-            }, 100);
-            fadeRef.current = fade;
-          },
-          onStateChange: (e) => {
-            if (e.data === YT.PlayerState.ENDED) {
-              try { e.target.stopVideo(); } catch {}
-            }
-          },
-        },
-      });
-      playerRef.current = player;
-    };
+    const playPromise = audio.play();
+    if (playPromise) {
+      playPromise.catch(() => {});
+    }
 
-    let prevOnReady = window.onYouTubeIframeAPIReady;
-    window.YT ? onReady() : (window.onYouTubeIframeAPIReady = onReady);
+    const steps = 50;
+    let i = 0;
+    const fade = setInterval(() => {
+      if (!aliveRef.current) { clearInterval(fade); return; }
+      i++;
+      audio.volume = Math.min(1, i / steps);
+      if (i >= steps) clearInterval(fade);
+    }, 100);
+    fadeRef.current = fade;
 
     return () => {
       aliveRef.current = false;
       if (fadeRef.current) { clearInterval(fadeRef.current); fadeRef.current = null; }
-      if (player && player.destroy) player.destroy();
-      playerRef.current = null;
-      if (prevOnReady) window.onYouTubeIframeAPIReady = prevOnReady;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
     };
   }, []);
 
@@ -220,7 +194,6 @@ export function CongratulationsOverlay({ onClose }) {
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60 pointer-events-none" />
-      <div id="yt-player-congrats" className="absolute w-0 h-0 overflow-hidden" />
       <div className="relative text-center px-4 sm:px-6 z-10">
         <div className="display-stretch text-2xl sm:text-3xl md:text-5xl text-nerv-orange text-glow-orange">おめでとう。</div>
         <div className="font-stamp tracking-[0.3em] sm:tracking-[0.5em] text-foreground/80 mt-2 sm:mt-3">CONGRATULATIONS.</div>
