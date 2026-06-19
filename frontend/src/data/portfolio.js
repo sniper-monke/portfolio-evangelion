@@ -182,18 +182,18 @@ export const ACHIEVEMENTS = [
   { code: "REC-014", title: "OUTSTANDING PERFORMANCE ACHIEVEMENT-95%+ ", year: "2025" },
   { code: "REC-021", title: "PERSEVERANTIA TECHNICAL OPERATIONS HEAD", year: "2026" },
   { code: "REC-028", title: "SCOTTISH MODEL UNITED NATIONS TECH OPS HEAD", year: "2026" },
-  { code: "REC-033", title: "", year: "2024" },
-  { code: "REC-039", title: "GUEST LECTURE // BEHAVIORAL ECON TO YR 11", year: "2024" },
-  { code: "REC-045", title: "PUBLISHED // STUDENT ECON REVIEW VOL.4", year: "2025" },
+  { code: "REC-033", title: "Inter-House Dramatics- 1st Place", year: "2024" },
+  { code: "REC-039", title: "BASKETBALL- 1x district level champion, 2x zonal level", year: "2023-2025" },
+  { code: "REC-045", title: "Crowdfunding- Most funds raised for alleviating the unfortunate", year: "2023" },
 ];
 
 export const ART_GALLERY = [
-  { id: "ART-001", title: "TYPO STUDY 01", url: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=600&q=80" },
-  { id: "ART-002", title: "GEOFRONT PRINT", url: "https://images.unsplash.com/photo-1545987796-200677ee1011?w=600&q=80" },
-  { id: "ART-003", title: "STREET // 35MM", url: "https://images.unsplash.com/photo-1505739679850-7adabc2cf6ba?w=600&q=80" },
-  { id: "ART-004", title: "RED TERMINAL", url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" },
-  { id: "ART-005", title: "TOKYO RAIN", url: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=600&q=80" },
-  { id: "ART-006", title: "GRID STUDY", url: "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&q=80" },
+  { id: "ART-001", title: "REZE CHAINSAWMAN PORTRAIT", url: "/rezeportrait.jpeg" },
+  { id: "ART-002", title: "PUCCI JJBA PARTE 6", url: "/pucci.jpeg" },
+  { id: "ART-003", title: "DIO BRANDO JJBA PARTE 3", url: "/dio.jpeg" },
+  { id: "ART-004", title: "REZE CHAINSAWMAN POSTER", url: "/reze poster.jpeg" },
+  { id: "ART-005", title: "GIORNO GIOVANNA PARTE 5", url: "/giorno.jpeg" },
+  { id: "ART-006", title: "GALLERY", url: "/gallery.jpeg" },
 ];
 
 export const CURRENT_STATUS = [
